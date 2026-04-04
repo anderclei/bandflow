@@ -56,21 +56,21 @@ export async function getAIFinanceAnalysis() {
     const context = {
         bandName: band.name,
         period: "Últimos 90 dias",
-        gigs: gigs.map(g => ({
+        gigs: gigs.map((g: any) => ({
             title: g.title,
             date: g.date.toISOString().split('T')[0],
             bruto: g.fee || 0,
             imposto: (g.fee || 0) * ((g.taxRate || 0) / 100) + (g.taxAmount || 0)
         })),
-        expenses: expenses.map(e => ({
+        expenses: expenses.map((e: any) => ({
             desc: e.description,
             amount: e.amount,
             cat: e.category,
             date: e.date.toISOString().split('T')[0]
         })),
-        merch: merchSales.map(s => ({
+        merch: merchSales.map((s: any) => ({
             total: s.totalAmount,
-            items: s.items.map(i => ({ name: i.item.name, qty: i.quantity, unitPrice: i.unitPrice }))
+            items: s.items.map((i: any) => ({ name: i.item.name, qty: i.quantity, unitPrice: i.unitPrice }))
         }))
     };
 

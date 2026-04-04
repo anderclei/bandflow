@@ -1,0 +1,3 @@
+﻿src/components/dashboard/contracts/contract-details-dialog.tsx(41,41): error TS2322: Type '{ clientName: any; clientDoc: string; eventDate: Date; venue: any; startTime: string; endTime: string; fee: any; amount: any; includeRider: boolean; contractType: string; }' is not assignable to type 'ContractData'.
+  Types of property 'contractType' are incompatible.
+    Type 'string' is not assignable to type '"BAR" | "WEDDING" | "CITY_HALL"'.

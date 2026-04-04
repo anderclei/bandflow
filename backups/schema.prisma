@@ -1,0 +1,554 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  isSuperAdmin  Boolean   @default(false)
+  licenseStatus String    @default("ACTIVE")
+  maxBands      Int       @default(1)
+  password      String?
+  accounts      Account[]
+  memberships   Member[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Band {
+  id                  String                 @id @default(cuid())
+  type                String                 @default("BANDA")
+  name                String
+  slug                String                 @unique @default(cuid())
+  description         String?
+  imageUrl            String?
+  primaryColor        String?                @default("#10b981")
+  secondaryColor      String?
+  respName            String?
+  respDocument        String?
+  respPhone           String?
+  respEmail           String?
+  addressStreet       String?
+  addressNumber       String?
+  addressNeighborhood String?
+  addressZipCode      String?
+  addressCity         String?
+  addressState        String?
+  officeId            String?
+  ecadId              String?
+  cae                 String?
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+  activityLogs        ActivityLog[]
+  office              Band?                  @relation("OfficeBands", fields: [officeId], references: [id])
+  managedBands        Band[]                 @relation("OfficeBands")
+  contracts           ContractTemplate[]
+  contractors         Contractor[]
+  deals               Deal[]
+  documents           Document[]
+  equipment           Equipment[]
+  expenses            Expense[]
+  transactions        FinancialTransaction[]
+  followers           Follower[]
+  gigs                Gig[]
+  goals               Goal[]
+  logisticsSuppliers  LogisticsSupplier[]
+  members             Member[]
+  merchItems          MerchItem[]
+  merchSales          MerchSale[]
+  notifications       Notification[]
+  setlists            Setlist[]
+  formats             ShowFormat[]
+  songs               Song[]
+  trips               Trip[]
+}
+
+model Member {
+  id              String           @id @default(cuid())
+  role            String           @default("MEMBER")
+  userId          String?
+  bandId          String
+  name            String?
+  rg              String?
+  cpf             String?
+  whatsapp        String?
+  position        String?
+  cache           Float?
+  documents       Document[]
+  equipment       Equipment[]
+  band            Band             @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  user            User?            @relation(fields: [userId], references: [id])
+  gigFees         MemberGigFee[]
+  roomAssignments RoomAssignment[]
+  royaltySplits   RoyaltySplit[]
+  formats         ShowFormat[]     @relation("MemberToShowFormat")
+
+  @@unique([userId, bandId])
+}
+
+model Song {
+  id        String           @id @default(cuid())
+  title     String
+  artist    String?
+  duration  Int?
+  fileUrl   String?
+  status    String           @default("READY")
+  key       String?
+  bandId    String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  bpm       Int?
+  isrc      String?
+  iswc      String?
+  workId    String?
+  payments  RoyaltyPayment[]
+  splits    RoyaltySplit[]
+  setlists  SetlistItem[]
+  band      Band             @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model Gig {
+  id             String                 @id @default(cuid())
+  title          String
+  date           DateTime
+  location       String?
+  fee            Float?
+  taxRate        Float?
+  taxAmount      Float?
+  notes          String?
+  loadIn         DateTime?
+  soundcheck     DateTime?
+  showtime       DateTime?
+  contractUrl    String?
+  bandId         String
+  contractorId   String?
+  formatId       String?
+  setlistId      String?                @unique
+  status         String                 @default("UPCOMING")
+  commissionRate Float?
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  transactions   FinancialTransaction[]
+  setlist        Setlist?               @relation(fields: [setlistId], references: [id])
+  band           Band                   @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  format         ShowFormat?            @relation(fields: [formatId], references: [id])
+  contractor     Contractor?            @relation(fields: [contractorId], references: [id])
+  expenses       GigExpense[]
+  tasks          GigTask[]
+  memberFees     MemberGigFee[]
+  merchSales     MerchSale[]
+}
+
+model GigTask {
+  id          String   @id @default(cuid())
+  description String
+  isCompleted Boolean  @default(false)
+  gigId       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  gig         Gig      @relation(fields: [gigId], references: [id], onDelete: Cascade)
+}
+
+model Setlist {
+  id        String        @id @default(cuid())
+  title     String
+  bandId    String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  gig       Gig?
+  band      Band          @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  items     SetlistItem[]
+}
+
+model SetlistItem {
+  id        String  @id @default(cuid())
+  position  Int
+  songId    String
+  setlistId String
+  setlist   Setlist @relation(fields: [setlistId], references: [id], onDelete: Cascade)
+  song      Song    @relation(fields: [songId], references: [id], onDelete: Cascade)
+
+  @@unique([setlistId, position])
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  description String
+  amount      Float
+  date        DateTime
+  category    String?
+  bandId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  band        Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model MemberGigFee {
+  id        String   @id @default(cuid())
+  amount    Float
+  isPaid    Boolean  @default(false)
+  gigId     String
+  memberId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  gig       Gig      @relation(fields: [gigId], references: [id], onDelete: Cascade)
+
+  @@unique([gigId, memberId])
+}
+
+model Follower {
+  id        String   @id @default(cuid())
+  email     String
+  bandId    String
+  createdAt DateTime @default(now())
+  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+
+  @@unique([email, bandId])
+}
+
+model Contractor {
+  id                String   @id @default(cuid())
+  type              String   @default("PF")
+  name              String
+  document          String?
+  rg                String?
+  issuingBody       String?
+  nationality       String?
+  maritalStatus     String?
+  profession        String?
+  zipCode           String?
+  address           String?
+  addressNumber     String?
+  addressComplement String?
+  neighborhood      String?
+  city              String?
+  state             String?
+  repName           String?
+  repNationality    String?
+  repMaritalStatus  String?
+  repProfession     String?
+  repRg             String?
+  repCpf            String?
+  email             String?
+  phone             String?
+  notes             String?
+  bandId            String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  band              Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  deals             Deal[]
+  gigs              Gig[]
+}
+
+model Deal {
+  id                  String             @id @default(cuid())
+  title               String
+  value               Float?
+  status              String             @default("LEAD")
+  expectedDate        DateTime?
+  city                String?
+  state               String?
+  distanceKm          Float?
+  displacementValue   Float?
+  bandId              String
+  contractorId        String?
+  formatId            String?
+  logisticsSupplierId String?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  logisticsSupplier   LogisticsSupplier? @relation(fields: [logisticsSupplierId], references: [id])
+  format              ShowFormat?        @relation(fields: [formatId], references: [id])
+  contractor          Contractor?        @relation(fields: [contractorId], references: [id])
+  band                Band               @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model LogisticsSupplier {
+  id        String   @id @default(cuid())
+  name      String
+  contact   String?
+  kmValue   Float    @default(0.0)
+  bandId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deals     Deal[]
+  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model ShowFormat {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  basePrice   Float?
+  bandId      String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  stagePlot   String?
+  inputList   String?
+  techSpecs   String?
+  deals       Deal[]
+  gigs        Gig[]
+  band        Band        @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  equipments  Equipment[] @relation("EquipmentToShowFormat")
+  members     Member[]    @relation("MemberToShowFormat")
+}
+
+model Equipment {
+  id           String       @id @default(cuid())
+  name         String
+  category     String
+  brand        String?
+  serialNumber String?
+  value        Float?
+  status       String       @default("AVAILABLE")
+  ownerId      String?
+  bandId       String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  band         Band         @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  owner        Member?      @relation(fields: [ownerId], references: [id])
+  formats      ShowFormat[] @relation("EquipmentToShowFormat")
+}
+
+model MerchItem {
+  id        String          @id @default(cuid())
+  name      String          @unique
+  category  String
+  price     Float
+  costPrice Float?
+  stock     Int             @default(0)
+  bandId    String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  band      Band            @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  sales     MerchSaleItem[]
+}
+
+model MerchSale {
+  id            String          @id @default(cuid())
+  totalAmount   Float
+  paymentMethod String
+  date          DateTime        @default(now())
+  gigId         String?
+  bandId        String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  band          Band            @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  gig           Gig?            @relation(fields: [gigId], references: [id])
+  items         MerchSaleItem[]
+}
+
+model MerchSaleItem {
+  id        String    @id @default(cuid())
+  saleId    String
+  itemId    String
+  quantity  Int
+  unitPrice Float
+  item      MerchItem @relation(fields: [itemId], references: [id])
+  sale      MerchSale @relation(fields: [saleId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id         String    @id @default(cuid())
+  title      String
+  category   String
+  fileUrl    String
+  expiryDate DateTime?
+  bandId     String
+  memberId   String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  member     Member?   @relation(fields: [memberId], references: [id])
+  band       Band      @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model RoyaltySplit {
+  id         String   @id @default(cuid())
+  songId     String
+  memberId   String
+  percentage Float
+  role       String   @default("COMPOSER")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  member     Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  song       Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+}
+
+model RoyaltyPayment {
+  id        String   @id @default(cuid())
+  songId    String
+  amount    Float
+  date      DateTime
+  source    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  song      Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String
+  message   String
+  link      String?
+  isRead    Boolean  @default(false)
+  bandId    String
+  createdAt DateTime @default(now())
+  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String?
+  details   String?
+  userId    String
+  bandId    String
+  createdAt DateTime @default(now())
+  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model Goal {
+  id           String    @id @default(cuid())
+  title        String
+  targetValue  Float
+  currentValue Float     @default(0)
+  unit         String    @default("BRL")
+  deadline     DateTime?
+  bandId       String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  band         Band      @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model ContractTemplate {
+  id          String              @id @default(cuid())
+  name        String
+  content     Bytes?
+  htmlContent String?
+  tags        String?
+  bandId      String
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  band                Band                @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  generated   GeneratedContract[]
+}
+
+model GeneratedContract {
+  id         String           @id @default(cuid())
+  templateId String
+  data       String
+  fileUrl    String?
+  createdAt  DateTime         @default(now())
+  template   ContractTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+}
+
+model Trip {
+  id        String   @id @default(cuid())
+  eventName String
+  city      String
+  date      String?
+  hotel     String?
+  bandId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rooms     Room[]
+  band      Band     @relation(fields: [bandId], references: [id], onDelete: Cascade)
+}
+
+model Room {
+  id          String           @id @default(cuid())
+  name        String
+  type        String           @default("DOUBLE")
+  tripId      String
+  trip        Trip             @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  assignments RoomAssignment[]
+}
+
+model RoomAssignment {
+  id       String @id @default(cuid())
+  roomId   String
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  room     Room   @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, memberId])
+}
+
+model GigExpense {
+  id          String   @id @default(cuid())
+  description String
+  amount      Float
+  category    String
+  gigId       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  gig         Gig      @relation(fields: [gigId], references: [id], onDelete: Cascade)
+}
+
+model FinancialTransaction {
+  id          String    @id @default(cuid())
+  description String
+  amount      Float
+  type        String
+  status      String    @default("PENDING")
+  category    String?
+  dueDate     DateTime?
+  paymentDate DateTime?
+  gigId       String?
+  bandId      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  band        Band      @relation(fields: [bandId], references: [id], onDelete: Cascade)
+  gig         Gig?      @relation(fields: [gigId], references: [id])
+}
+
+model SystemSettings {
+  id           String   @id @default("global")
+  appName      String   @default("BandFlow")
+  logoUrl      String?
+  primaryColor String?
+  adminEmail   String?
+  updatedAt    DateTime @updatedAt
+}

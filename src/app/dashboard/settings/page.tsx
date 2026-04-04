@@ -107,7 +107,21 @@ export default async function SettingsPage() {
 
                             <form action={async (formData) => {
                                 'use server';
-                                await updateBand(formData);
+                                const data = {
+                                    name: formData.get("name") as string,
+                                    secondaryColor: formData.get("secondaryColor") as string,
+                                    imageUrl: formData.get("imageUrl") as string,
+                                    logoUrl: formData.get("logoUrl") as string,
+                                    respName: formData.get("respName") as string,
+                                    respDocument: formData.get("respDocument") as string,
+                                    addressStreet: formData.get("addressStreet") as string,
+                                    addressNumber: formData.get("addressNumber") as string,
+                                    addressNeighborhood: formData.get("addressNeighborhood") as string,
+                                    addressZipCode: formData.get("addressZipCode") as string,
+                                    addressCity: formData.get("addressCity") as string,
+                                    addressState: formData.get("addressState") as string,
+                                }
+                                await updateBand(data);
                             }} className="space-y-10">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div className="md:col-span-2">

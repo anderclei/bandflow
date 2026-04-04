@@ -229,7 +229,7 @@ export default async function InventoryPage() {
 
                                                     <form action={async () => {
                                                         "use server";
-                                                        await deleteEquipment(item.id);
+                                                        await deleteEquipment({ id: item.id });
                                                     }}>
                                                         <button 
                                                             title="Excluir equipamento"

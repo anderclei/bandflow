@@ -69,6 +69,7 @@ export function GigTaskList({ gigId, initialTasks }: GigTaskListProps) {
                         </button>
                         <button
                             onClick={() => handleDelete(task.id)}
+                            title="Excluir tarefa"
                             className="p-2 text-zinc-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
                         >
                             <Trash2 className="h-4 w-4" />
@@ -92,6 +93,7 @@ export function GigTaskList({ gigId, initialTasks }: GigTaskListProps) {
                 />
                 <button
                     type="submit"
+                    title="Adicionar tarefa"
                     disabled={isSubmitting}
                     className="p-3 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 disabled:opacity-50 transition-colors"
                 >

@@ -27,7 +27,7 @@ export function DashboardCharts({ historicalData }: { historicalData: any[] }) {
                             <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#3f3f46', fontWeight: 900 }} tickFormatter={(value) => `R$${value}`} />
                             <Tooltip 
                                 contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '0', fontSize: '10px', fontWeight: 900, color: '#fff', textTransform: 'uppercase' }}
-                                formatter={(value: number) => [`R$ ${value.toFixed(2)}`, 'MRR']}
+                                formatter={(value: any) => [`R$ ${Number(value || 0).toFixed(2)}`, 'MRR']}
                             />
                             <Area type="monotone" dataKey="mrr" stroke="#ccff00" strokeWidth={3} fillOpacity={1} fill="url(#colorMrr)" />
                         </AreaChart>

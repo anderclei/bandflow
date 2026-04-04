@@ -53,11 +53,21 @@ export function MemberDialog({ open, onOpenChange, member, formats, onSuccess }:
     async function handleSubmit(formData: FormData) {
         setIsPending(true)
         setError(null)
-        formData.append("role", role)
+
+        const data = {
+            name: formData.get("name") as string,
+            position: formData.get("position") as string,
+            whatsapp: formData.get("whatsapp") as string,
+            cache: formData.get("cache") ? Number(formData.get("cache")) : null,
+            cpf: formData.get("cpf") as string,
+            rg: formData.get("rg") as string,
+            role: role,
+            selectedFormats: selectedFormats,
+        }
 
         const result = isEdit
-            ? await updateMember(member.id, formData, selectedFormats)
-            : await createMember(formData, selectedFormats)
+            ? await updateMember({ id: member.id, ...data })
+            : await createMember(data)
 
         if (result.success) {
             onSuccess?.()

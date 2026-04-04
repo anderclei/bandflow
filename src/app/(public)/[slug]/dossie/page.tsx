@@ -98,7 +98,7 @@ export default async function PublicDossierPage({ params, searchParams }: PagePr
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {documents.map(doc => {
+                        {documents.map((doc: any) => {
                             const isExpired = doc.expiryDate && new Date(doc.expiryDate) < new Date();
 
                             return (

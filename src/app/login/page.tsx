@@ -12,7 +12,7 @@ export default async function LoginPage(props: Props) {
     const searchParams = await props.searchParams;
     const officeSlug = searchParams?.office as string | undefined;
 
-    let b2bConfig = null;
+    let b2bConfig: any = null;
     if (officeSlug) {
         b2bConfig = await prisma.band.findUnique({
             where: { slug: officeSlug },

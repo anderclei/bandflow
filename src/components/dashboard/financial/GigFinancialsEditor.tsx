@@ -69,7 +69,7 @@ export function GigFinancialsEditor({
     };
 
     const removeExpense = (index: number) => {
-        setExpenses(expenses.filter(( , i) => i !== index));
+        setExpenses(expenses.filter((_, i) => i !== index));
     };
 
     const updateExpense = (index: number, field: keyof Expense, value: any) => {
@@ -81,8 +81,8 @@ export function GigFinancialsEditor({
     const handleSave = async () => {
         setIsSaving(true);
         try {
-            const expRes = await updateGigExpenses(gigId, expenses);
-            const finRes = await updateGigFinancials(gigId, { commissionRate, status });
+            const expRes = await updateGigExpenses({ gigId, expenses });
+            const finRes = await updateGigFinancials({ gigId, commissionRate, status });
 
             if (expRes.success && finRes.success) {
                 toast.success("Financeiro atualizado com sucesso!");
@@ -103,7 +103,7 @@ export function GigFinancialsEditor({
         }
         setIsCalculatingFreight(true);
         try {
-            const res = await calculateFreight(gigId, selectedSupplierId);
+            const res = await calculateFreight({ gigId, supplierId: selectedSupplierId });
             if (res.success && res.data) {
                 setExpenses([...expenses, {
                     description: `Frete (Automático): ${res.data.distanceKm} km`,

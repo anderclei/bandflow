@@ -130,4 +130,19 @@ export async function getCashFlow(bandId: string) {
   return { transactions };
 }
 
+/**
+ * Updates Gig Status and Commission Rate
+ */
+export const updateGigFinancials = createSafeAction(
+  z.object({ gigId: z.string().min(1), commissionRate: z.number(), status: z.string() }),
+  async ({ gigId, commissionRate, status }) => {
+    await (financeRepository as any).prisma.gig.update({
+      where: { id: gigId },
+      data: { commissionRate, status }
+    });
+    revalidatePath(`/dashboard/gigs/${gigId}`);
+    return { success: true };
+  }
+);
+
 

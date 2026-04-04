@@ -21,6 +21,26 @@ export async function GET() {
             },
         });
 
+        // Limpeza de Idempotência
+        await prisma.merchSale.deleteMany({ where: { bandId: band.id } });
+        await prisma.merchItem.deleteMany({ where: { bandId: band.id } });
+        await prisma.financialTransaction.deleteMany({ where: { bandId: band.id } });
+        await prisma.gigTask.deleteMany({ where: { gig: { bandId: band.id } } });
+        await prisma.cateringItem.deleteMany({ where: { gig: { bandId: band.id } } });
+        await prisma.flight.deleteMany({ where: { trip: { bandId: band.id } } });
+        await prisma.trip.deleteMany({ where: { bandId: band.id } });
+        await prisma.gig.deleteMany({ where: { bandId: band.id } });
+        await prisma.setlistItem.deleteMany({ where: { setlist: { bandId: band.id } } });
+        await prisma.setlist.deleteMany({ where: { bandId: band.id } });
+        await prisma.song.deleteMany({ where: { bandId: band.id } });
+        await prisma.deal.deleteMany({ where: { bandId: band.id } });
+        await prisma.contractor.deleteMany({ where: { bandId: band.id } });
+        await prisma.document.deleteMany({ where: { bandId: band.id } });
+        await prisma.goal.deleteMany({ where: { bandId: band.id } });
+        await prisma.logisticsSupplier.deleteMany({ where: { bandId: band.id } });
+        await prisma.equipment.deleteMany({ where: { bandId: band.id } });
+        await prisma.member.deleteMany({ where: { bandId: band.id, role: { not: "ADMIN" } } });
+
         // 2. Garantir que o admin existe
         const adminEmail = "anderclei@gmail.com";
         const user = await prisma.user.findUnique({ where: { email: adminEmail } });

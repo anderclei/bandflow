@@ -66,14 +66,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#ccff00] selection:text-black font-body overflow-x-hidden selection:rounded-none">
       {/* Texture Overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-[100]" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-[100] noise-layer" />
 
       {/* Nav */}
-      <header className="fixed top-0 w-full z-50 mix-blend-difference border-b border-white/5 bg-black/10 backdrop-blur-md">
+      <header className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
           <Link href="/" className="group">
-            <span className="text-3xl font-black tracking-tighter uppercase font-heading leading-none">
+            <span className="text-3xl font-black tracking-tighter uppercase font-heading leading-none text-white">
               Band<span className="text-[#ccff00]">Flow</span>
             </span>
           </Link>

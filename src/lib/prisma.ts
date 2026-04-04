@@ -1,48 +1,53 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSql } from "@prisma/adapter-libsql";
-import { createClient } from "@libsql/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-const dbUrl = process.env.DIRECT_URL || process.env.DATABASE_URL || "file:./prisma/dev_v7.db";
-const isLibsql = dbUrl.startsWith("libsql://") || dbUrl.startsWith("wss://") || dbUrl.startsWith("file:");
+function getPrismaClient(): PrismaClient {
+    // DIRECT_URL takes priority (bypasses pooler for migrations/long queries)
+    // DATABASE_URL is the pooled connection string
+    // file: fallback is intentionally removed — schema is PostgreSQL
+    const dbUrl = process.env.DIRECT_URL || process.env.DATABASE_URL;
 
-const getPrismaClient = () => {
-    // If we're using PostgreSQL, we should ideally use the direct URL for the adapter
-    const connectionUrl = (!isLibsql && process.env.DIRECT_URL) ? process.env.DIRECT_URL : dbUrl;
-    console.log(`[Prisma] Starting initialization for Prisma 7 with URL (sanitized): ${connectionUrl.split('@').pop()}`);
-    
+    if (!dbUrl) {
+        throw new Error(
+            "[Prisma] Nenhuma variável de ambiente de banco de dados encontrada.\n" +
+            "Configure DATABASE_URL (e opcionalmente DIRECT_URL) nas configurações " +
+            "do projeto no Vercel (Settings → Environment Variables).\n" +
+            "Exemplo postgresql: postgresql://user:pass@host:5432/dbname"
+        );
+    }
+
+    // libsql/turso URLs only — file: is NOT a valid production URL
+    const isLibsql =
+        dbUrl.startsWith("libsql://") ||
+        dbUrl.startsWith("wss://");
+
     try {
         if (isLibsql) {
-            console.log(`[Prisma] Initializing for LibSQL/SQLite adapter...`);
-            const adapter = new PrismaLibSql({ url: connectionUrl } as any);
-            return new PrismaClient({ 
-                adapter, 
-                log: ["query", "info", "warn", "error"] 
-            });
+            console.log("[Prisma] Initializing LibSQL/Turso adapter...");
+            const adapter = new PrismaLibSql({ url: dbUrl } as any);
+            return new PrismaClient({ adapter });
         }
-        
-        console.log(`[Prisma] Initializing for PostgreSQL (with PrismaPg Adapter) using Direct URL? ${!!process.env.DIRECT_URL}`);
-        const pool = new Pool({ 
-            connectionString: connectionUrl,
+
+        // PostgreSQL path (Neon, Supabase, Railway, Vercel Postgres, etc.)
+        console.log("[Prisma] Initializing PostgreSQL (pg) adapter...");
+        const pool = new Pool({
+            connectionString: dbUrl,
             max: 10,
             idleTimeoutMillis: 30000,
-            connectionTimeoutMillis: 2000,
+            connectionTimeoutMillis: 5000,
         });
-        
+
         const adapter = new PrismaPg(pool);
-        return new PrismaClient({ 
-            adapter,
-            log: ["query", "info", "warn", "error"] 
-        });
+        return new PrismaClient({ adapter });
     } catch (e: any) {
-        console.error("[Prisma] CRITICAL: Failed to initialize Prisma with any adapter!");
-        console.error("Error Message:", e.message);
-        console.error("Error Stack:", e.stack);
+        console.error("[Prisma] Falha ao inicializar o cliente:", e.message);
         throw new Error(`[Prisma] Driver adapter initialization failed: ${e.message}`);
     }
-};
+}
 
 export const prisma = globalForPrisma.prisma || getPrismaClient();
 

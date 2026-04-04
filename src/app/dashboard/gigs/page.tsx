@@ -64,7 +64,21 @@ export default async function GigsPage() {
                                 AGENDAR NOVO SHOW
                             </h2>
                         </div>
-                        <form action={createGig} className="space-y-8">
+                        <form action={async (formData: FormData) => {
+                            "use server";
+                            const fee = formData.get("fee");
+                            const taxRate = formData.get("taxRate");
+                            const data = {
+                                title: formData.get("title") as string,
+                                date: formData.get("date") as string,
+                                location: formData.get("location") as string,
+                                fee: fee ? Number(fee) : undefined,
+                                taxRate: taxRate ? Number(taxRate) : undefined,
+                                contractorId: formData.get("contractorId") as string || undefined,
+                                setlistId: formData.get("setlistId") as string || undefined,
+                            };
+                            await createGig(data as any);
+                        }} className="space-y-8">
                             <div className="space-y-3">
                                 <label htmlFor="gig-title" className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-700 ml-1">NOME DO SHOW</label>
                                         <input
@@ -237,7 +251,7 @@ export default async function GigsPage() {
                                                     <GigContract gig={gig} bandName={band?.name as string} />
                                                     <form action={async () => {
                                                         "use server";
-                                                        await deleteGig(gig.id);
+                                                        await deleteGig({ id: gig.id });
                                                     }}>
                                                         <button 
                                                             title="Excluir show"

@@ -27,7 +27,7 @@ export function createSafeAction<TInput extends z.ZodTypeAny, TOutput>(
     requiredRole?: "ADMIN" | "MEMBER";
   }
 ) {
-  return async (data: any): Promise<ActionResponse<TOutput>> => {
+  return async (data: any): Promise<ActionResponse<TOutput> | any> => {
     try {
       // 1. Authorization & Tenant Isolation
       const { bandId, session, plan, membership } = await verifyBandAccess(options?.requiredRole);

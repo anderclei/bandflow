@@ -1,1 +1,0 @@
-﻿src/components/dashboard/contracts/contract-details-dialog.tsx(40,41): error TS2741: Property 'contractType' is missing in type '{ clientName: any; clientDoc: string; eventDate: Date; venue: any; startTime: string; endTime: string; fee: any; amount: any; includeRider: boolean; }' but required in type 'ContractData'.

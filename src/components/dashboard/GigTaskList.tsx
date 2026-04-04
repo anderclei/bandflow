@@ -22,13 +22,13 @@ export function GigTaskList({ gigId, initialTasks }: GigTaskListProps) {
     const handleToggle = async (taskId: string, currentStatus: boolean) => {
         // Optimistic update
         setTasks(tasks.map(t => t.id === taskId ? { ...t, isCompleted: !currentStatus } : t));
-        await toggleGigTask(taskId, !currentStatus, gigId);
+        await toggleGigTask({ taskId, isCompleted: !currentStatus, gigId });
     };
 
     const handleDelete = async (taskId: string) => {
         // Optimistic update
         setTasks(tasks.filter(t => t.id !== taskId));
-        await deleteGigTask(taskId, gigId);
+        await deleteGigTask({ taskId, gigId });
     };
 
     const handleCreate = async (formData: FormData) => {
@@ -37,7 +37,7 @@ export function GigTaskList({ gigId, initialTasks }: GigTaskListProps) {
 
         // Let the server action revalidate and we rely on standard next.js refresh
         // For better UX we could add optimistically but since we need an ID, we'll wait for server.
-        await createGigTask(gigId, formData);
+        await createGigTask({ gigId, description });
 
         const form = document.getElementById("task-form") as HTMLFormElement;
         if (form) form.reset();

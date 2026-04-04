@@ -126,7 +126,7 @@ export async function getRecentAuditLogs() {
 export async function getHistoricalMRR(currentMrr: number) {
     // Retorna um mock de 6 meses baseado no MRR atual para visualização,
     // já que o banco pode não ter histórico de 6 meses de SubscriptionLogs real.
-    const data = [];
+    const data: any[] = [];
     const months = ['Out', 'Nov', 'Dez', 'Jan', 'Fev', 'Mar'];
     
     // Simula um crescimento de 5 a 15% ao mês para trás

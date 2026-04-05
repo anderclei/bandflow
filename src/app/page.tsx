@@ -8,24 +8,9 @@ import {
   Users, 
   Package, 
   FileText, 
-  BarChart3, 
   ShieldCheck, 
-  ArrowRight,
-  CheckCircle2,
-  Zap,
-  Globe,
-  Clock,
-  Briefcase,
-  Play,
   Monitor,
-  Terminal,
-  Activity,
-  Layers,
-  Database,
-  Truck,
-  Hotel,
-  Plane,
-  Download
+  CheckCircle2,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -60,6 +45,57 @@ const allFeatures = [
     description: "Rastreio de equipamentos por número de série e gestão de estoque de merchandising integrado às vendas.",
     icon: Package,
   }
+];
+
+const plans = [
+  {
+    name: "Starter",
+    price: "R$ 197",
+    period: "/mês",
+    description: "Para bandas em ascensão que precisam de organização profissional.",
+    features: [
+      "Até 5 membros",
+      "Agenda de Shows",
+      "Setlists & Repertório",
+      "Contratos básicos",
+      "Suporte por e-mail",
+    ],
+    cta: "Começar Agora",
+    highlight: false,
+  },
+  {
+    name: "Pro",
+    price: "R$ 397",
+    period: "/mês",
+    description: "Para artistas e bandas em turnê que precisam de controle total.",
+    features: [
+      "Membros ilimitados",
+      "Tudo do Starter +",
+      "Gestão Financeira completa",
+      "Trip Manager (hotéis/voos)",
+      "Technical Rider & Stage Plot",
+      "Estoque & Merch",
+      "Suporte prioritário",
+    ],
+    cta: "Assinar Pro",
+    highlight: true,
+  },
+  {
+    name: "Enterprise",
+    price: "Sob consulta",
+    period: "",
+    description: "Para grandes produções e selos com múltiplas bandas e equipes.",
+    features: [
+      "Múltiplas bandas",
+      "Tudo do Pro +",
+      "Dashboard administrativo",
+      "Integrações customizadas",
+      "Onboarding dedicado",
+      "SLA garantido",
+    ],
+    cta: "Falar com Consultor",
+    highlight: false,
+  },
 ];
 
 export default function Home() {
@@ -99,7 +135,7 @@ export default function Home() {
 
       <main>
         {/* HERO SECTION */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-40 px-8">
+        <section id="vision" className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-40 px-8">
           {/* Background Visual */}
           <div className="absolute inset-0 z-0">
              <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_50%_40%,rgba(204,255,0,0.1)_0%,transparent_60%)]" />
@@ -150,9 +186,9 @@ export default function Home() {
                <Link href="/login" className="w-full sm:w-auto px-16 py-6 bg-[#ccff00] text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white transition-all shadow-[0_0_40px_rgba(204,255,0,0.15)] active:scale-95">
                  Começar Agora
                </Link>
-               <Link href="/login" className="w-full sm:w-auto px-16 py-6 bg-transparent border border-white/10 text-white text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white/5 transition-all">
-                 Ver Demo Grátis
-               </Link>
+               <a href="#features" className="w-full sm:w-auto px-16 py-6 bg-transparent border border-white/10 text-white text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white/5 transition-all text-center">
+                 Ver o Sistema
+               </a>
             </motion.div>
           </div>
 
@@ -189,7 +225,7 @@ export default function Home() {
             </div>
         </section>
 
-        {/* BRUTALIST DASHBOARD PREVIEW */}
+        {/* DASHBOARD PREVIEW */}
         <section className="py-40 px-8 max-w-7xl mx-auto border-t border-white/5">
             <div className="grid lg:grid-cols-12 gap-24 items-center">
                 <div className="lg:col-span-5 space-y-12">
@@ -214,6 +250,9 @@ export default function Home() {
                          <p className="text-[8px] font-bold text-zinc-600 uppercase">Criptografia de dados financeiros e contratuais.</p>
                       </div>
                    </div>
+                   <Link href="/login" className="inline-block px-12 py-5 bg-[#ccff00] text-black text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white transition-colors">
+                      Acessar o Painel →
+                   </Link>
                 </div>
 
                 <div className="lg:col-span-7 bg-zinc-950 border border-white/10 p-12 relative overflow-hidden group">
@@ -265,6 +304,74 @@ export default function Home() {
             </div>
         </section>
 
+        {/* PRICING */}
+        <section id="pricing" className="py-40 px-8 bg-zinc-950 border-t border-white/5">
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-24 text-center">
+              <span className="text-[#ccff00] font-black text-[10px] uppercase tracking-[0.5em] mb-6 block">Planos e Preços</span>
+              <h2 className="text-5xl lg:text-7xl font-black font-heading leading-tight uppercase tracking-tighter text-white">
+                ESCOLHA SEU<br /><span className="text-zinc-700">NÍVEL.</span>
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+              {plans.map((plan) => (
+                <div
+                  key={plan.name}
+                  className={`p-12 border flex flex-col ${
+                    plan.highlight
+                      ? "border-[#ccff00] bg-[#ccff00]/5"
+                      : "border-white/5 bg-zinc-900/20"
+                  }`}
+                >
+                  {plan.highlight && (
+                    <span className="text-[8px] font-black uppercase tracking-[0.5em] text-[#ccff00] border border-[#ccff00] px-3 py-1 w-fit mb-8">
+                      MAIS POPULAR
+                    </span>
+                  )}
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-500 mb-4">{plan.name}</h3>
+                  <div className="flex items-end gap-1 mb-6">
+                    <span className={`text-5xl font-black font-heading ${plan.highlight ? "text-[#ccff00]" : "text-white"}`}>
+                      {plan.price}
+                    </span>
+                    {plan.period && <span className="text-zinc-600 font-black text-sm mb-2">{plan.period}</span>}
+                  </div>
+                  <p className="text-zinc-600 text-xs font-bold uppercase tracking-tight mb-10">{plan.description}</p>
+                  <ul className="space-y-4 mb-12 flex-1">
+                    {plan.features.map((feat) => (
+                      <li key={feat} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-wider text-zinc-400">
+                        <CheckCircle2 className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? "text-[#ccff00]" : "text-zinc-600"}`} />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                  {plan.name === "Enterprise" ? (
+                    <a
+                      href="https://wa.me/5511999999999?text=Olá,%20tenho%20interesse%20no%20plano%20Enterprise%20do%20BandFlow."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-5 bg-transparent border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.3em] hover:border-[#ccff00] hover:text-[#ccff00] transition-all text-center block"
+                    >
+                      {plan.cta}
+                    </a>
+                  ) : (
+                    <Link
+                      href="/login"
+                      className={`py-5 text-[10px] font-black uppercase tracking-[0.3em] text-center block transition-all ${
+                        plan.highlight
+                          ? "bg-[#ccff00] text-black hover:bg-white"
+                          : "bg-white/5 text-white border border-white/10 hover:bg-white/10"
+                      }`}
+                    >
+                      {plan.cta}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* FINAL CTA */}
         <section className="py-60 px-8 relative overflow-hidden bg-[#ccff00] text-black">
              <div className="absolute top-0 left-0 w-full h-[200px] bg-gradient-to-b from-black to-transparent opacity-20" />
@@ -277,10 +384,15 @@ export default function Home() {
                    <Link href="/login" className="w-full md:w-auto px-20 py-8 bg-black text-[#ccff00] text-[12px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all shadow-3xl">
                       Criar Minha Conta Agora
                    </Link>
-                   <div className="flex flex-col items-start text-left">
+                   <a
+                     href="https://wa.me/5511999999999?text=Olá,%20quero%20saber%20mais%20sobre%20o%20BandFlow."
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="flex flex-col items-start text-left group cursor-pointer"
+                   >
                       <span className="text-[8px] font-black uppercase tracking-[0.3em] mb-2">Implementação Imediata</span>
-                      <span className="text-xl font-black font-heading tracking-tight underline cursor-pointer">FALAR COM CONSULTOR</span>
-                   </div>
+                      <span className="text-xl font-black font-heading tracking-tight underline group-hover:opacity-70 transition-opacity">FALAR COM CONSULTOR</span>
+                   </a>
                 </div>
              </div>
         </section>
@@ -289,7 +401,7 @@ export default function Home() {
       <footer className="py-40 bg-[#0a0a0a] px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
           <div className="md:col-span-2 space-y-12">
-            <span className="text-4xl font-black tracking-tighter uppercase font-heading block">
+            <span className="text-4xl font-black tracking-tighter uppercase font-heading block text-white">
               Band<span className="text-[#ccff00]">Flow</span>
             </span>
             <p className="max-w-sm text-zinc-500 font-bold text-sm uppercase tracking-tight leading-relaxed">
@@ -303,19 +415,32 @@ export default function Home() {
           <div className="space-y-12">
             <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ccff00]">Plataforma</h5>
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-widest text-zinc-700">
-                <li className="hover:text-white cursor-pointer transition-colors">Sistema Core</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Vendas</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Logística de Tour</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Planos</li>
+                <li><a href="#features" className="hover:text-white transition-colors">O Sistema</a></li>
+                <li><a href="#pricing" className="hover:text-white transition-colors">Planos</a></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Acessar Painel</Link></li>
+                <li><Link href="/login" className="hover:text-white transition-colors">Criar Conta</Link></li>
             </ul>
           </div>
 
           <div className="space-y-12">
-            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ccff00]">Legal</h5>
+            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ccff00]">Contato</h5>
             <ul className="space-y-6 text-[10px] font-black uppercase tracking-widest text-zinc-700">
-                <li className="hover:text-white cursor-pointer transition-colors">Termos de Uso</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Privacidade</li>
-                <li className="hover:text-white cursor-pointer transition-colors">Cookies</li>
+                <li>
+                  <a
+                    href="https://wa.me/5511999999999"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-white transition-colors"
+                  >
+                    WhatsApp
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:contato@bandflow.com.br" className="hover:text-white transition-colors">
+                    E-mail
+                  </a>
+                </li>
+                <li><a href="#vision" className="hover:text-white transition-colors">A Visão</a></li>
             </ul>
           </div>
         </div>

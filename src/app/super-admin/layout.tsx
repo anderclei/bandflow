@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Settings, Users, LayoutDashboard, LogOut, CreditCard, LifeBuoy, Search, FileText, Globe, Zap } from "lucide-react";
+import { BandFlowIcon } from "@/components/bandflow-icon";
 
 export default async function SuperAdminLayout({
     children,
@@ -42,11 +43,14 @@ export default async function SuperAdminLayout({
             {/* Sidebar */}
             <aside className="w-72 border-r border-white/5 bg-[#0a0a0a] hidden lg:flex flex-col relative z-10">
                 <div className="h-28 flex items-center px-8 border-b border-white/5">
-                    <Link href="/" className="group">
-                        <span className="text-2xl font-black tracking-tighter uppercase font-heading leading-none">
-                            Band<span className="text-[#ccff00]">Flow</span>
-                        </span>
-                        <div className="text-[8px] font-black uppercase tracking-[0.5em] text-zinc-600 mt-1">Super Admin Core</div>
+                    <Link href="/" className="group flex items-center gap-2">
+                        <BandFlowIcon className="w-7 h-auto" glow={false} />
+                        <div>
+                            <span className="text-2xl font-black tracking-tighter uppercase font-heading leading-none">
+                                Band<span className="text-[#ccff00]">Flow</span>
+                            </span>
+                            <div className="text-[8px] font-black uppercase tracking-[0.5em] text-zinc-600 mt-1">Super Admin Core</div>
+                        </div>
                     </Link>
                 </div>
 

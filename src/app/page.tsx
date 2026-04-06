@@ -13,6 +13,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import Link from "next/link";
+import { BandFlowIcon } from "@/components/bandflow-icon";
 
 const allFeatures = [
   {
@@ -107,7 +108,8 @@ export default function Home() {
       {/* Nav */}
       <header className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
-          <Link href="/" className="group">
+          <Link href="/" className="group flex items-center gap-4">
+            <BandFlowIcon className="w-16 h-16" />
             <span className="text-3xl font-black tracking-tighter uppercase font-heading leading-none text-white">
               Band<span className="text-[#ccff00]">Flow</span>
             </span>
@@ -140,11 +142,6 @@ export default function Home() {
           <div className="absolute inset-0 z-0">
              <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_50%_40%,rgba(204,255,0,0.1)_0%,transparent_60%)]" />
              <div className="absolute inset-0 bg-black/40" />
-             <img 
-               src="/bandflow_hero_visual_1775185039904.png" 
-               alt="Visual de Fundo" 
-               className="w-full h-full object-cover grayscale opacity-20"
-             />
           </div>
 
           <div className="relative z-10 text-center max-w-6xl">
@@ -401,9 +398,12 @@ export default function Home() {
       <footer className="py-40 bg-[#0a0a0a] px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-24">
           <div className="md:col-span-2 space-y-12">
-            <span className="text-4xl font-black tracking-tighter uppercase font-heading block text-white">
-              Band<span className="text-[#ccff00]">Flow</span>
-            </span>
+            <div className="flex items-center gap-8">
+              <BandFlowIcon className="w-40 h-40" />
+              <span className="text-4xl font-black tracking-tighter uppercase font-heading block text-white">
+                Band<span className="text-[#ccff00]">Flow</span>
+              </span>
+            </div>
             <p className="max-w-sm text-zinc-500 font-bold text-sm uppercase tracking-tight leading-relaxed">
                A infraestrutura de inteligência para a nova economia da música ao vivo. Gestão profissional em escala industrial.
             </p>

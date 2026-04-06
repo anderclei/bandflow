@@ -33,9 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="dark">
-      <body
-        className={`${syne.variable} ${manrope.variable} antialiased font-body tracking-tight bg-[#0a0a0a] text-white`}
-      >
+      <body suppressHydrationWarning className={`${syne.variable} ${manrope.variable} antialiased font-body tracking-tight bg-[#0a0a0a] text-white`}>
         {children}
       </body>
     </html>

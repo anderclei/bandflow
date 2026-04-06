@@ -41,6 +41,7 @@ import {
 import { signOut } from "next-auth/react";
 import { BandSelector } from "./BandSelector";
 import { useRoleStore, UserRole } from "@/store/useRoleStore";
+import { BandFlowIcon } from "@/components/bandflow-icon";
 
 interface SidebarProps {
     memberships: any[];
@@ -180,17 +181,21 @@ export function Sidebar({ memberships, activeBandId, activeBand, isSuperAdmin = 
                 <div className="flex-1 flex items-center justify-center">
                     {!isCollapsed && (
                         isSuperAdmin ? (
-                            <Link href="/super-admin" className="hover:opacity-80 transition-opacity">
+                            <Link href="/super-admin" className="hover:opacity-80 transition-all flex items-center justify-center gap-2">
+                                <BandFlowIcon className="w-7 h-auto" />
                                 <span className="text-[1.8rem] font-black uppercase tracking-tighter leading-none select-none">
                                     <span className="text-white">Band</span>
                                     <span className="text-[#ccff00]">Flow</span>
                                 </span>
                             </Link>
                         ) : (
-                            <span className="text-[1.8rem] font-black uppercase tracking-tighter leading-none select-none">
-                                <span className="text-white">Band</span>
-                                <span className="text-[#ccff00]">Flow</span>
-                            </span>
+                            <div className="flex items-center justify-center gap-2">
+                                <BandFlowIcon className="w-7 h-auto" />
+                                <span className="text-[1.8rem] font-black uppercase tracking-tighter leading-none select-none">
+                                    <span className="text-white">Band</span>
+                                    <span className="text-[#ccff00]">Flow</span>
+                                </span>
+                            </div>
                         )
                     )}
                 </div>
@@ -207,14 +212,15 @@ export function Sidebar({ memberships, activeBandId, activeBand, isSuperAdmin = 
             </div>
 
             {isCollapsed && (
-                <div className="flex h-12 items-center justify-center border-b border-white/5 bg-black/10 rounded-none">
+                <div className="flex h-20 items-center justify-center border-b border-white/5 bg-black/10 rounded-none relative">
+                    <BandFlowIcon className="w-10 h-10 opacity-50" />
                     <button
                         onClick={() => setIsCollapsed(false)}
-                        className="rounded-none p-1.5 text-zinc-400 hover:bg-white/10 hover:text-white transition-all"
+                        className="absolute inset-0 flex items-center justify-center rounded-none text-zinc-400 hover:text-white transition-all bg-transparent"
                         title="Expandir barra lateral"
                         aria-label="Expandir"
                     >
-                        <ChevronRight className="h-5 w-5" />
+                        <ChevronRight className="h-4 w-4 opacity-0 hover:opacity-100 transition-opacity" />
                     </button>
                 </div>
             )}

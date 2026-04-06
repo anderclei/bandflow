@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { ArrowLeft, Lock, Mail, ShieldCheck, Play } from "lucide-react";
 import Link from "next/link";
+import { BandFlowIcon } from "@/components/bandflow-icon";
 
 type Props = {
     searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
@@ -63,8 +64,11 @@ export default async function LoginPage(props: Props) {
                         <span className="text-[10px] font-black uppercase tracking-[0.3em]">VOLTAR AO REPOSITORIO</span>
                     </Link>
                     
-                    <div className="text-4xl font-black tracking-tighter uppercase font-heading mb-2 leading-none">
-                        Band<span className="text-[#ccff00]">Flow</span>
+                    <div className="flex flex-col items-center justify-center gap-4 mb-8">
+                        <BandFlowIcon className="w-32 h-auto" />
+                        <div className="text-4xl font-black tracking-tighter uppercase font-heading leading-none">
+                            Band<span className="text-[#ccff00]">Flow</span>
+                        </div>
                     </div>
                 </div>
 

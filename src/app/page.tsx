@@ -11,6 +11,9 @@ import {
   ShieldCheck, 
   Monitor,
   CheckCircle2,
+  Instagram,
+  Twitter,
+  Linkedin,
 } from "lucide-react";
 import Link from "next/link";
 import { BandFlowIcon } from "@/components/bandflow-icon";
@@ -51,7 +54,7 @@ const allFeatures = [
 const plans = [
   {
     name: "Starter",
-    price: "R$ 197",
+    price: "R$ 99,90",
     period: "/mês",
     description: "Para bandas em ascensão que precisam de organização profissional.",
     features: [
@@ -66,7 +69,7 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "R$ 397",
+    price: "R$ 199,90",
     period: "/mês",
     description: "Para artistas e bandas em turnê que precisam de controle total.",
     features: [
@@ -408,7 +411,20 @@ export default function Home() {
                A infraestrutura de inteligência para a nova economia da música ao vivo. Gestão profissional em escala industrial.
             </p>
             <div className="flex gap-4">
-                {[1,2,3].map(i => <div key={i} className="w-14 h-14 bg-zinc-900 border border-white/5 flex items-center justify-center hover:border-[#ccff00] hover:bg-[#ccff00]/10 transition-all cursor-pointer" />)}
+               {[
+                 { icon: Instagram, href: "#", name: "Instagram" },
+                 { icon: Twitter, href: "#", name: "Twitter" },
+                 { icon: Linkedin, href: "#", name: "LinkedIn" },
+               ].map((social) => (
+                 <a 
+                   key={social.name}
+                   href={social.href} 
+                   className="w-14 h-14 bg-zinc-900 border border-white/5 flex items-center justify-center hover:border-[#ccff00] hover:bg-[#ccff00]/10 transition-all cursor-pointer group"
+                   title={social.name}
+                 >
+                    <social.icon className="w-5 h-5 text-zinc-600 group-hover:text-[#ccff00]" />
+                 </a>
+               ))}
             </div>
           </div>
           

@@ -327,7 +327,7 @@ export function Sidebar({ memberships, activeBandId, activeBand, isSuperAdmin = 
                     )}
                 >
                     <LogOut className={cn("h-4 w-4", !isCollapsed && "mr-4")} />
-                    {!isCollapsed && <span>SAIR DO TERMINAL</span>}
+                    {!isCollapsed && <span>SAIR DO SISTEMA</span>}
                 </button>
             </div>
         </aside>

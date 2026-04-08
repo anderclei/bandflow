@@ -310,7 +310,7 @@ export function DocumentClient({ initialDocuments, members, bandId, setlists = [
                 {documents.length === 0 ? (
                     <div className="bg-zinc-900/20 border border-dashed border-white/10 p-20 text-center opacity-30 flex flex-col items-center">
                         <FolderOpen className="h-16 w-16 text-zinc-900 mb-8" />
-                        <h3 className="text-[12px] font-black uppercase tracking-[.5em] text-zinc-700">REPOSITÓRIO VAZIO</h3>
+                        <h3 className="text-[12px] font-black uppercase tracking-[.5em] text-zinc-700">NENHUM DOCUMENTO</h3>
                         <p className="text-[8px] font-black uppercase tracking-[.4em] text-zinc-800 mt-4 max-w-xs">Arraste seus CNDs e documentos da banda para começar a gestão profissional.</p>
                     </div>
                 ) : (

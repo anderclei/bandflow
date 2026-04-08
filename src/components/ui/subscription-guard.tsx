@@ -30,7 +30,7 @@ export function SubscriptionGuard({ status, plan, expiresAt, children }: Subscri
                         Detectamos que sua assinatura <span className="text-white">[{plan}]</span> está com pagamento pendente crônico. O período de carência foi <span className="text-red-500 underline decoration-red-500/50 underline-offset-4">esgotado</span>.
                     </p>
                     <p className="text-[8px] font-black text-zinc-700 uppercase tracking-widest leading-relaxed border border-white/5 p-4 bg-zinc-900/50">
-                        Os dados de performance, CRM e BI permanecem integrados ao banco central, mas o acesso via terminal está negado até a regularização do protocolo financeiro.
+                        Os dados de performance, CRM e BI permanecem integrados ao banco de dados, mas o acesso está negado até a regularização do pagamento.
                     </p>
                     
                     <div className="pt-8 flex flex-col gap-4">

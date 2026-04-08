@@ -180,7 +180,7 @@ export function TenantManager({ initialBands }: { initialBands: any[] }) {
                     toast.error(result.error);
                 }
             } catch (error) {
-                toast.error("Erro no protocolo de reset.");
+                toast.error("Erro ao resetar.");
             } finally {
                 setSaving(false);
             }
@@ -239,7 +239,7 @@ export function TenantManager({ initialBands }: { initialBands: any[] }) {
                         className="w-full sm:w-auto px-8 py-3 bg-[#ccff00] text-black text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white transition-all flex items-center justify-center gap-2"
                     >
                         <Plus className="h-4 w-4" />
-                        Inicializar Novo Node
+                        Criar Nova Conta
                     </button>
                 </div>
             )}
@@ -253,7 +253,7 @@ export function TenantManager({ initialBands }: { initialBands: any[] }) {
                                     {editingBand ? "Modificar Instância" : "Contruir Novo Cluster"}
                                 </h2>
                                 <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-[0.4em] mt-2">
-                                    Shell de Configuração da Conta Core
+                                    Configuração de Conta Administrativa
                                 </p>
                             </div>
                             <button className="text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white transition-colors" onClick={closeForm}>Encerrar Processo [X]</button>
@@ -326,7 +326,7 @@ export function TenantManager({ initialBands }: { initialBands: any[] }) {
 
                                 <div className="space-y-6 pt-10 border-t border-white/5">
                                     <h3 className="text-[12px] font-black uppercase tracking-[0.5em] text-zinc-500 flex items-center gap-4">
-                                        <div className="w-10 h-[1px] bg-zinc-800" /> Acesso de Protocolo
+                                        <div className="w-10 h-[1px] bg-zinc-800" /> Acesso e Permissões
                                     </h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
@@ -391,7 +391,7 @@ export function TenantManager({ initialBands }: { initialBands: any[] }) {
                                             <div className="absolute top-0 right-0 p-2 text-zinc-800 opacity-20">
                                                 <Shield className="w-10 h-10" />
                                             </div>
-                                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#ccff00] mb-4">Protocolo de Limpeza Hard</h4>
+                                            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#ccff00] mb-4">Reset Completo de Dados</h4>
                                             <button
                                                 onClick={() => handleReset(editingBand.id, editingBand.name)}
                                                 className="w-full border border-[#ccff00]/20 py-4 text-[8px] font-black uppercase tracking-[0.3em] text-[#ccff00] hover:bg-[#ccff00] hover:text-black transition-all"

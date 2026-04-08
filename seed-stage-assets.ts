@@ -1,38 +1,6 @@
-"use client"
+import { prisma } from './src/lib/prisma';
 
-import React from 'react';
-
-// ----------------------------------------------------------------------
-// Types
-// ----------------------------------------------------------------------
-
-export type StageItemType =
-    | 'drum' | 'keyboard' | 'piano' | 'bass' | 'guitar' | 'guitar-acoustic' | 'sax' | 'trumpet' | 'congas'
-    | 'bass-amp' | 'guitar-amp' | 'side' | 'monitor' | 'drum-sub' | 'mic' | 'mic-handheld'
-    | 'di' | 'power' | 'riser' | 'stand' | 'backdrop' | 'percussion';
-
-export interface StageItem {
-    id: string;
-    type: StageItemType;
-    x: number;
-    y: number;
-    label: string;
-    rotation: number;
-    scale: number;
-}
-
-// ----------------------------------------------------------------------
-// Configuration
-// ----------------------------------------------------------------------
-
-export interface ElementConfig {
-    label: string;
-    spriteId: string;
-    width: string;
-    category: string;
-}
-
-export const ELEMENT_CONFIG: Record<StageItemType, ElementConfig> = {
+const ELEMENT_CONFIG: Record<string, { label: string; spriteId: string; width: string; category: string }> = {
     'drum': { label: 'BATERIA', spriteId: 'drum', width: 'w-32 h-32', category: 'Ritmo' },
     'percussion': { label: 'PERCUSSÃO', spriteId: 'percussion', width: 'w-24 h-24', category: 'Ritmo' },
     'congas': { label: 'SET CONGAS', spriteId: 'congas', width: 'w-20 h-24', category: 'Ritmo' },
@@ -57,33 +25,28 @@ export const ELEMENT_CONFIG: Record<StageItemType, ElementConfig> = {
     'backdrop': { label: 'BACKDROP / BANNER', spriteId: 'backdrop', width: 'w-48 h-16', category: 'Estrutura' },
 };
 
-// ----------------------------------------------------------------------
-// Svg Component (mask-based to inherit text color)
-// ----------------------------------------------------------------------
-export const SvgInstrument = ({ name, className }: { name: string, className?: string }) => {
-  return (
-    <div 
-      className={`bg-current ${className}`}
-      style={{
-        WebkitMaskImage: `url(/icons/instruments/${name}.svg)`,
-        WebkitMaskPosition: 'center',
-        WebkitMaskRepeat: 'no-repeat',
-        WebkitMaskSize: 'contain',
-        maskImage: `url(/icons/instruments/${name}.svg)`,
-        maskPosition: 'center',
-        maskRepeat: 'no-repeat',
-        maskSize: 'contain',
-      }}
-    />
-  );
-};
+async function seed() {
+  for (const [key, value] of Object.entries(ELEMENT_CONFIG)) {
+    const existing = await prisma.stageAssetDefinition.findUnique({
+      where: { type: key }
+    });
 
-export const StageItemIcon = ({ type, className }: { type: StageItemType, className?: string }) => {
-    const config = ELEMENT_CONFIG[type];
-    if (!config) return null;
+    if (!existing) {
+      await prisma.stageAssetDefinition.create({
+        data: {
+          type: key,
+          label: value.label,
+          category: value.category,
+          widthClass: value.width,
+          isActive: true
+        }
+      });
+      console.log("Created: ", key);
+    }
+  }
+}
 
-    const iconClassName = className || config.width;
-    
-    // Agora puxamos o bloco dinâmico que mascara qualquer SVG novo do SVG Repo.
-    return <SvgInstrument name={config.spriteId} className={iconClassName} />;
-};
+seed().then(() => {
+  console.log("Seeding complete!");
+  process.exit(0);
+}).catch(console.error);

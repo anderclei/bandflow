@@ -133,7 +133,7 @@ export default function TemplatesManager() {
                         <div>
                             <h1 className="text-4xl font-black font-heading tracking-tighter uppercase leading-none text-white">Templates do <span className="text-zinc-600">Sistema</span></h1>
                             <div className="flex items-center gap-2 mt-1">
-                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Repositório Mestre de Blueprints</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Biblioteca de Modelos Oficiais</span>
                                 <span className="w-1 h-1 rounded-full bg-zinc-800" />
                                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ccff00]">Source Ativo</span>
                             </div>

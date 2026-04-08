@@ -42,7 +42,7 @@ export default function SuperAdminSettingsPage() {
                     toast.error(result.error);
                 }
             } catch {
-                toast.error("Erro no protocolo de reset de dados.");
+                toast.error("Erro ao resetar os dados.");
             } finally {
                 setSaving(false);
             }
@@ -195,7 +195,7 @@ export default function SuperAdminSettingsPage() {
                             <ShieldAlert className="w-6 h-6 text-zinc-700 group-hover:text-[#ccff00] transition-colors" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-black font-heading uppercase tracking-widest text-white">Manutenção de Core</h2>
+                            <h2 className="text-xl font-black font-heading uppercase tracking-widest text-white">Manutenção do Sistema</h2>
                             <p className="text-[8px] font-bold text-zinc-600 uppercase tracking-widest mt-2">Protocolos de purgue de dados e limpeza de instâncias</p>
                         </div>
                     </div>

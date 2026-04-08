@@ -31,7 +31,7 @@ export function RecentBandsTable({ bands }: { bands: any[] }) {
                         <Terminal className="w-4 h-4 text-[#ccff00]" />
                         Instâncias Recentes
                     </h3>
-                    <p className="text-[8px] text-zinc-600 font-bold uppercase tracking-widest mt-2">Novas entidades no cluster core</p>
+                    <p className="text-[8px] text-zinc-600 font-bold uppercase tracking-widest mt-2">Novas contas no sistema</p>
                 </div>
             </div>
             <div className="space-y-2 flex-1">

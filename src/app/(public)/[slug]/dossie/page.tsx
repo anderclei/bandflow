@@ -82,9 +82,9 @@ export default async function PublicDossierPage({ params, searchParams }: PagePr
                                 <FileText className="w-8 h-8" />
                             </div>
                             <div className="space-y-6">
-                                <h2 className="text-2xl font-black font-heading uppercase text-white tracking-widest leading-none">Repositório Central Digital <span className="text-[#ccff00]">[{documents.length}]</span></h2>
-                                <p className="text-[12px] font-black uppercase tracking-widest text-zinc-500 leading-relaxed max-w-3xl">
-                                    ESTE TERMINAL CONTÉM A DOCUMENTAÇÃO OFICIAL LIBERADA PELA PRODUÇÃO PARA FINS DE HABILITAÇÃO HABILITAÇÃO E CONTRATAÇÃO PÚBLICA.
+                                <h2 className="text-2xl font-black font-heading uppercase text-white tracking-widest leading-none">Documentação Digital <span className="text-[#ccff00]">[{documents.length}]</span></h2>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500 max-w-xl">
+                                    ESTE ESPAÇO CONTÉM A DOCUMENTAÇÃO OFICIAL LIBERADA PELA PRODUÇÃO PARA FINS DE HABILITAÇÃO HABILITAÇÃO E CONTRATAÇÃO PÚBLICA.
                                 </p>
                             </div>
                         </div>

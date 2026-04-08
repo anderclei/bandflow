@@ -138,7 +138,7 @@ export function SettingsForm({ initialSettings }: { initialSettings: any }) {
                             </>
                         )}
                     </button>
-                    <p className="text-[8px] font-black text-zinc-800 uppercase tracking-widest mt-4">Protocolo de Segurança: Sessão Criptografada 128-bit</p>
+                    <p className="text-[8px] font-black text-zinc-800 uppercase tracking-widest mt-4">Segurança: Conexão Criptografada 128-bit</p>
                 </div>
             </div>
         </div>

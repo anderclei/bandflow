@@ -61,7 +61,7 @@ export default async function LoginPage(props: Props) {
                 <div className="text-center mb-12">
                     <Link href="/" className="inline-flex items-center gap-2 text-zinc-600 hover:text-[#ccff00] transition-colors mb-12 group">
                         <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em]">VOLTAR AO REPOSITORIO</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em]">VOLTAR AO SITE</span>
                     </Link>
                     
                     <div className="flex flex-col items-center justify-center gap-4 mb-8">
@@ -79,7 +79,7 @@ export default async function LoginPage(props: Props) {
                          {b2bConfig?.imageUrl ? (
                             <img src={b2bConfig.imageUrl} alt={brandName} className="h-full w-auto grayscale opacity-50 contrast-150" />
                         ) : (
-                            <span className="text-[8px] font-black uppercase tracking-[1em] text-zinc-700 border-b border-zinc-800 pb-2">ACESSO VIA TERMINAL</span>
+                            <span className="text-[8px] font-black uppercase tracking-[1em] text-zinc-700 border-b border-zinc-800 pb-2">ACESSO RESTRITO</span>
                         )}
                     </div>
 
@@ -107,11 +107,11 @@ export default async function LoginPage(props: Props) {
                         className="space-y-8"
                     >
                         <div className="space-y-3">
-                            <label className="text-[8px] font-black uppercase tracking-[0.4em] text-zinc-600 ml-1">IDENTIDADE DE ACESSO EMAIL</label>
+                            <label className="text-[8px] font-black uppercase tracking-[0.4em] text-zinc-600 ml-1">E-MAIL</label>
                             <input
                                 name="email"
                                 type="email"
-                                placeholder="ACCESS@BANDFLOW.IO"
+                                placeholder="SEU@EMAIL.COM"
                                 required
                                 className="w-full bg-black/50 border border-white/5 rounded-none py-5 px-6 text-[10px] font-black uppercase tracking-widest placeholder:text-zinc-800 outline-none focus:border-[#ccff00]/50 transition-all"
                             />
@@ -119,7 +119,7 @@ export default async function LoginPage(props: Props) {
 
                         <div className="space-y-3">
                             <div className="flex items-center justify-between ml-1">
-                                <label className="text-[8px] font-black uppercase tracking-[0.4em] text-zinc-600">CHAVE DE VERIFICAÇÃO SENHA</label>
+                                <label className="text-[8px] font-black uppercase tracking-[0.4em] text-zinc-600">SENHA</label>
                             </div>
                             <input
                                 name="password"
@@ -134,13 +134,13 @@ export default async function LoginPage(props: Props) {
                             type="submit"
                             className="group w-full bg-[#ccff00] text-black py-6 rounded-none font-black text-[10px] uppercase tracking-[0.3em] hover:bg-white transition-all flex items-center justify-center gap-4 mt-12 overflow-hidden relative"
                         >
-                            <span className="relative z-10 transition-transform group-hover:scale-110">INICIALIZAR SESSÃO CORE</span>
+                            <span className="relative z-10 transition-transform group-hover:scale-110">ACESSAR PLATAFORMA</span>
                             <Play className="w-3 h-3 fill-current relative z-10" />
                         </button>
                     </form>
 
                     <div className="mt-12 pt-8 border-t border-white/5 flex justify-between items-center opacity-30 group-hover:opacity-100 transition-opacity">
-                        <span className="text-[8px] font-black uppercase tracking-widest text-zinc-500">SEGURANÇA: REGISTRO ATIVO</span>
+                        <span className="text-[8px] font-black uppercase tracking-widest text-zinc-500">AMBIENTE SEGURO</span>
                         <div className="flex gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                             <div className="w-1.5 h-1.5 rounded-full bg-green-500" />

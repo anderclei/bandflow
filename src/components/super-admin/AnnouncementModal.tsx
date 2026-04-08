@@ -75,7 +75,7 @@ export function AnnouncementModal({ isOpen, onClose }: { isOpen: boolean, onClos
                     
                     <div className="grid grid-cols-2 gap-10">
                         <div className="space-y-4">
-                            <label className="text-[8px] font-black uppercase tracking-[0.4em] text-zinc-600 ml-1">Tipo de Protocolo</label>
+                            <label className="text-[8px] font-black uppercase tracking-[0.4em] text-zinc-600 ml-1">Tipo de Mensagem</label>
                              <select 
                                 value={type}
                                 onChange={(e) => setType(e.target.value)}

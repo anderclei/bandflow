@@ -40,7 +40,7 @@ export default async function SuperAdminDashboard() {
                         <div>
                             <h1 className="text-4xl font-black font-heading tracking-tighter uppercase leading-none">Centro de <span className="text-[#ccff00]">Comando</span></h1>
                             <div className="flex items-center gap-2 mt-1">
-                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Core Engine V3.0</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600">Administração Global V3.0</span>
                                 <span className="w-1 h-1 rounded-full bg-zinc-800" />
                                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-green-500">Sistema Online</span>
                             </div>
@@ -114,7 +114,7 @@ export default async function SuperAdminDashboard() {
             {/* CHARTS */}
             <div className="p-10 bg-zinc-900/30 border border-white/5">
                 <div className="flex items-center justify-between mb-10">
-                    <h3 className="text-[12px] font-black uppercase tracking-[0.5em]">Terminal de Análise Data-Stream</h3>
+                    <h3 className="text-[12px] font-black uppercase tracking-[0.5em]">Análise de Dados do Sistema</h3>
                     <div className="flex gap-2">
                         <div className="w-2 h-2 rounded-full bg-[#ccff00]" />
                         <div className="w-2 h-2 rounded-full bg-zinc-800" />
@@ -168,7 +168,7 @@ export default async function SuperAdminDashboard() {
                             ))
                         ) : (
                             <div className="col-span-2 py-12 text-center border-2 border-dashed border-zinc-900">
-                                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-700">Protocolo de Estabilidade Permanente (Sem Risco)</p>
+                                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-zinc-700">Sistema Estável (Operação Segura)</p>
                             </div>
                         )}
                     </div>

@@ -102,7 +102,7 @@ export default async function FinancePage() {
             </div>
 
                 <div className="flex bg-[#ccff00]/5 border border-[#ccff00]/10 p-4 w-fit self-center sm:self-start rounded-none">
-                    <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ccff00]">SINCRONIZADO COM O TERMINAL</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ccff00]">SINCRONIZADO</p>
                 </div>
 
                 <Tabs defaultValue="overview" className="space-y-12">

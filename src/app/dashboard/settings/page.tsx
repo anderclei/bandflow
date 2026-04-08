@@ -32,7 +32,7 @@ export default async function SettingsPage() {
 
     return (
         <div className="max-w-7xl mx-auto space-y-16 pb-32">
-            {/* --- HEADER TERMINAL --- */}
+            {/* --- HEADER --- */}
             <div className="relative group">
                 <div className="absolute -left-4 -top-4 w-8 h-8 border-t-2 border-l-2 border-[#ccff00]" />
                 <div className="flex flex-col gap-8 lg:flex-row lg:items-end justify-between border-b border-white/5 pb-10">

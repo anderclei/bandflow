@@ -31,6 +31,7 @@ export default async function SuperAdminLayout({
         { name: "Suporte (Tickets)", href: "/super-admin/tickets", icon: LifeBuoy },
         { name: "Auditoria Global", href: "/super-admin/audit", icon: Search },
         { name: "Templates do Sistema", href: "/super-admin/templates", icon: FileText },
+        { name: "Ativos de Palco", href: "/super-admin/stage-assets", icon: Zap },
         { name: "Configurações", href: "/super-admin/settings", icon: Settings },
     ];
 
@@ -49,7 +50,7 @@ export default async function SuperAdminLayout({
                             <span className="text-2xl font-black tracking-tighter uppercase font-heading leading-none">
                                 Band<span className="text-[#ccff00]">Flow</span>
                             </span>
-                            <div className="text-[8px] font-black uppercase tracking-[0.5em] text-zinc-600 mt-1">Super Admin Core</div>
+                            <div className="text-[8px] font-black uppercase tracking-[0.5em] text-zinc-600 mt-1">Administração Geral</div>
                         </div>
                     </Link>
                 </div>
@@ -94,7 +95,7 @@ export default async function SuperAdminLayout({
                         className="flex w-full items-center justify-center gap-3 py-4 bg-zinc-900 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-[#ccff00] hover:text-black transition-all"
                     >
                         <LogOut className="h-4 w-4" />
-                        <span>Sair do Core</span>
+                        <span>Sair da Administração</span>
                     </Link>
                 </div>
             </aside>
@@ -105,7 +106,7 @@ export default async function SuperAdminLayout({
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2 py-1 px-3 bg-zinc-900 rounded-full border border-white/5">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_green]" />
-                            <span className="text-[8px] font-black uppercase tracking-widest text-zinc-500 uppercase">Operações em Tempo Real</span>
+                            <span className="text-[8px] font-black uppercase tracking-widest text-zinc-500 uppercase">Sistema Online</span>
                         </div>
                     </div>
 

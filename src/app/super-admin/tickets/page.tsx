@@ -186,7 +186,7 @@ export default function SuperAdminTicketsPage() {
                                         />
                                     </div>
                                     <div className="flex justify-between items-center mt-6">
-                                        <p className="text-[8px] font-black uppercase tracking-[0.2em] text-zinc-700">Aviso: Protocolo de Resposta Oficial Ativo</p>
+                                        <p className="text-[8px] font-black uppercase tracking-[0.2em] text-zinc-700">Aviso: Respostas Oficiais Ativas</p>
                                         <button 
                                             onClick={handleReply}
                                             disabled={sending || !replyText.trim()}

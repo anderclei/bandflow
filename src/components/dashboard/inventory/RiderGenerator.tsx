@@ -176,7 +176,11 @@ export function RiderGenerator({ formats, bandName }: RiderGeneratorProps) {
                                                             transform: `rotate(${item.rotation || 0}deg) scale(${item.scale || 1})`,
                                                         }}
                                                     >
-                                                        <StageItemIcon type={item.type} />
+                                                        <StageItemIcon 
+                                                            type={item.type} 
+                                                            svgContent={item.svgContent}
+                                                            imageUrl={item.imageUrl}
+                                                        />
                                                     </div>
                                                     <div className="bg-white border border-black text-black text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap uppercase tracking-tighter" style={{ transform: `translateY(${(item.scale || 1) * 8}px)` }}>
                                                         {item.label}

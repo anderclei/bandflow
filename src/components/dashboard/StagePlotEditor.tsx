@@ -218,7 +218,11 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
                             <div className="flex flex-col items-center justify-center h-full py-10 text-center space-y-4 px-4">
                                 <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest leading-relaxed">
                                     Biblioteca vazia.<br/>
-                                    Configure os instrumentos no painel Super Admin.
+                                    {(libraryAssets as any)._error ? (
+                                        <span className="text-red-500 lowercase font-mono opacity-50 block mt-2">
+                                            Erro DB: {(libraryAssets as any)._error}
+                                        </span>
+                                    ) : "Configure os instrumentos no painel Super Admin."}
                                 </p>
                             </div>
                         )}

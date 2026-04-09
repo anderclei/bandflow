@@ -41,8 +41,10 @@ export default async function StagePlotPage({
             createdAt: a.createdAt.toISOString(),
             updatedAt: a.updatedAt.toISOString(),
         }));
-    } catch (e) {
+    } catch (e: any) {
         console.error("Erro ao buscar biblioteca de assets:", e);
+        // Debugging info for dev
+        (libraryAssets as any)._error = e.message;
     }
 
     return (

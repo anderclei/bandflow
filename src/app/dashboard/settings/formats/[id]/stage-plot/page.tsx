@@ -28,10 +28,15 @@ export default async function StagePlotPage({
     // Default stage plot configuration
     const initialPlot = format.stagePlot ? JSON.parse(format.stagePlot) : [];
 
-    // Fetch dynamic assets from database
-    const libraryAssets = await prisma.stageAssetDefinition.findMany({
-        orderBy: { category: "asc" },
-    });
+    // Fetch dynamic assets from database with fallback
+    let libraryAssets: any[] = [];
+    try {
+        libraryAssets = await prisma.stageAssetDefinition.findMany({
+            orderBy: { category: "asc" },
+        });
+    } catch (e) {
+        console.error("Erro ao buscar biblioteca de assets:", e);
+    }
 
     return (
         <div className="space-y-12 h-full flex flex-col pb-20">

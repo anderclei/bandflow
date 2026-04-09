@@ -23,10 +23,14 @@ export default async function StagePlotPage() {
     const currentFormat = formats[0]
     const initialItems = currentFormat.stagePlot ? JSON.parse(currentFormat.stagePlot) : []
 
-    // Fetch dynamic assets from database
-    const libraryAssets = await prisma.stageAssetDefinition.findMany({
-        orderBy: { category: "asc" },
-    });
+    let libraryAssets: any[] = [];
+    try {
+        libraryAssets = await prisma.stageAssetDefinition.findMany({
+            orderBy: { category: "asc" },
+        });
+    } catch (e) {
+        console.error("Erro ao carregar biblioteca:", e);
+    }
 
     return (
         <div className="flex-1 space-y-4 p-8 pt-6">

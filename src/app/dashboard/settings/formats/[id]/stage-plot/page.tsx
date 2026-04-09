@@ -4,6 +4,7 @@ import { redirect, notFound } from "next/navigation";
 import { StagePlotConfigurator } from "./StagePlotConfigurator";
 import { ArrowLeft, Map } from "lucide-react";
 import Link from "next/link";
+export const dynamic = 'force-dynamic';
 
 export default async function StagePlotPage({
     params,

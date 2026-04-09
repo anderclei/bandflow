@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { getActiveBand } from "@/lib/getActiveBand"
 import { prisma } from "@/lib/prisma"
 import { createDefaultShowFormat } from "@/app/actions/show-formats"
+export const dynamic = 'force-dynamic';
 
 export default async function StagePlotPage() {
     const { band } = await getActiveBand({

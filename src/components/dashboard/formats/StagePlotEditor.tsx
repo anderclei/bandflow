@@ -123,34 +123,42 @@ export function StagePlotEditor({ initialData, onSave, bandName, libraryAssets =
                 </div>
 
                 <div className="space-y-6">
-                    {/* Dynamic Library Assets */}
-                    {(Object.entries(groupedLibrary) as [string, any[]][]).map(([cat, assets]) => (
-                        <div key={cat} className="space-y-3">
-                            <h4 className="text-[9px] font-black text-zinc-600 uppercase tracking-widest border-l-2 border-zinc-700 pl-2">{cat}</h4>
-                            <div className="grid grid-cols-1 gap-2">
-                                {assets.map((asset) => (
-                                    <button
-                                        key={asset.id}
-                                        onClick={() => addItem(asset.type, true, asset.svgContent, asset.label)}
-                                        className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 hover:bg-white hover:text-black transition-all group text-left"
-                                    >
-                                        <div className="h-8 w-8 shrink-0 bg-black/40 rounded-xl p-1.5 group-hover:bg-white/10 transition-colors">
-                                            <DynamicIcon 
-                                                type={asset.type} 
-                                                isDatabaseAsset={true} 
-                                                svgContent={asset.svgContent} 
-                                                className="w-full h-full text-zinc-400 group-hover:text-black" 
-                                            />
-                                        </div>
-                                        <div className="flex flex-col overflow-hidden">
-                                            <span className="text-[9px] font-bold uppercase tracking-tight text-white group-hover:text-black whitespace-nowrap overflow-hidden text-ellipsis">
-                                                {asset.label}
-                                            </span>
-                                            <span className="text-[7px] font-mono text-zinc-600 group-hover:text-zinc-800">{asset.type}</span>
-                                        </div>
-                                    </button>
-                                ))}
+                    {Object.keys(groupedLibrary).length > 0 ? (
+                        (Object.entries(groupedLibrary) as [string, any[]][]).map(([cat, assets]) => (
+                            <div key={cat} className="space-y-3">
+                                <h4 className="text-[9px] font-black text-zinc-600 uppercase tracking-widest border-l-2 border-secondary pl-2">{cat}</h4>
+                                <div className="grid grid-cols-1 gap-2">
+                                    {assets.map((asset) => (
+                                        <button
+                                            key={asset.id}
+                                            onClick={() => addItem(asset.type, true, asset.svgContent, asset.label)}
+                                            className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 hover:bg-secondary hover:text-white transition-all group text-left"
+                                        >
+                                            <div className="h-8 w-8 shrink-0 bg-black/40 rounded-xl p-1.5 group-hover:bg-white/10 transition-colors">
+                                                <DynamicIcon 
+                                                    type={asset.type} 
+                                                    isDatabaseAsset={true} 
+                                                    svgContent={asset.svgContent} 
+                                                    className="w-full h-full text-zinc-400 group-hover:text-white" 
+                                                />
+                                            </div>
+                                            <div className="flex flex-col overflow-hidden">
+                                                <span className="text-[9px] font-bold uppercase tracking-tight text-zinc-400 group-hover:text-white whitespace-nowrap overflow-hidden text-ellipsis">
+                                                    {asset.label}
+                                                </span>
+                                                <span className="text-[7px] font-mono text-zinc-600 group-hover:text-zinc-800">{asset.type}</span>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
+                        ))
+                    ) : (
+                        <div className="py-10 text-center space-y-4 px-4 border border-dashed border-white/5 rounded-3xl">
+                             <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest leading-relaxed">
+                                Biblioteca vazia.<br/>
+                                Configure os instrumentos no painel Super Admin.
+                            </p>
                         </div>
                     ))}
                 </div>

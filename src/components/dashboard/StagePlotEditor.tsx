@@ -189,30 +189,39 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
                     </CardHeader>
                     <CardContent className="h-[500px] overflow-y-auto pr-2 custom-scrollbar space-y-10 pt-8">
                         {/* Database Assets */}
-                        {(Object.entries(groupedLibrary) as [string, any[]][]).map(([cat, assets]) => (
-                            <div key={cat} className="space-y-4">
-                                <h3 className="text-[9px] font-black uppercase text-[#ccff00]/40 tracking-[0.4em] px-1">{cat}</h3>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {assets.map((asset) => (
-                                        <button
-                                            key={asset.id}
-                                            className="flex flex-col h-24 gap-2 bg-zinc-900/40 border border-white/10 hover:border-[#ccff00] hover:bg-[#ccff00]/5 p-2 items-center justify-center transition-all active:scale-95 group/item rounded-none"
-                                            onClick={() => addItem(asset.type, true, asset)}
-                                        >
-                                            <div className="pointer-events-none scale-[0.6] text-white group-hover/item:text-[#ccff00] transition-colors flex items-center justify-center">
-                                                <StageItemIcon 
-                                                    type={asset.type} 
-                                                    svgContent={asset.svgContent}
-                                                    imageUrl={asset.imageUrl}
-                                                    className="w-16 h-16" 
-                                                />
-                                            </div>
-                                            <span className="text-[8px] text-center uppercase tracking-widest font-black text-white group-hover/item:text-white mt-auto truncate w-full">{asset.label}</span>
-                                        </button>
-                                    ))}
+                        {Object.keys(groupedLibrary).length > 0 ? (
+                            (Object.entries(groupedLibrary) as [string, any[]][]).map(([cat, assets]) => (
+                                <div key={cat} className="space-y-4">
+                                    <h3 className="text-[9px] font-black uppercase text-[#ccff00]/40 tracking-[0.4em] px-1">{cat}</h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {assets.map((asset) => (
+                                            <button
+                                                key={asset.id}
+                                                className="flex flex-col h-24 gap-2 bg-zinc-900/40 border border-white/10 hover:border-[#ccff00] hover:bg-[#ccff00]/5 p-2 items-center justify-center transition-all active:scale-95 group/item rounded-none"
+                                                onClick={() => addItem(asset.type, true, asset)}
+                                            >
+                                                <div className="pointer-events-none scale-[0.6] text-white group-hover/item:text-[#ccff00] transition-colors flex items-center justify-center">
+                                                    <StageItemIcon 
+                                                        type={asset.type} 
+                                                        svgContent={asset.svgContent}
+                                                        imageUrl={asset.imageUrl}
+                                                        className="w-16 h-16" 
+                                                    />
+                                                </div>
+                                                <span className="text-[8px] text-center uppercase tracking-widest font-black text-white group-hover/item:text-white mt-auto truncate w-full">{asset.label}</span>
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-full py-10 text-center space-y-4 px-4">
+                                <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest leading-relaxed">
+                                    Biblioteca vazia.<br/>
+                                    Configure os instrumentos no painel Super Admin.
+                                </p>
                             </div>
-                        ))}
+                        )}
                     </CardContent>
                 </Card>
 

@@ -6,9 +6,14 @@ export const metadata = {
 };
 
 export default async function StageAssetsPage() {
-  const assets = await prisma.stageAssetDefinition.findMany({
-    orderBy: { createdAt: "asc" },
-  });
+  let assets: any[] = [];
+  try {
+    assets = await prisma.stageAssetDefinition.findMany({
+      orderBy: { createdAt: "asc" },
+    });
+  } catch (e) {
+    console.error("Erro ao carregar Stage Assets:", e);
+  }
 
   return (
     <div className="space-y-8">

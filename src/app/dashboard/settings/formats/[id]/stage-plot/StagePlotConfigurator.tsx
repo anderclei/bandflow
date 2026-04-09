@@ -9,9 +9,10 @@ import { Loader2 } from "lucide-react";
 interface StagePlotConfiguratorProps {
     formatId: string;
     initialPlot: any[];
+    libraryAssets?: any[];
 }
 
-export function StagePlotConfigurator({ formatId, initialPlot }: StagePlotConfiguratorProps) {
+export function StagePlotConfigurator({ formatId, initialPlot, libraryAssets = [] }: StagePlotConfiguratorProps) {
     const [isSaving, setIsSaving] = useState(false);
 
     const handleSave = async (jsonString: string) => {
@@ -46,6 +47,7 @@ export function StagePlotConfigurator({ formatId, initialPlot }: StagePlotConfig
                 initialData={JSON.stringify(initialPlot)} 
                 onSave={handleSave} 
                 bandName="Sua Banda" 
+                libraryAssets={libraryAssets}
             />
 
             <div className="p-4 bg-zinc-50 dark:bg-zinc-950/50 border-t border-zinc-100 dark:border-zinc-800 text-[10px] text-zinc-500 font-medium flex items-center gap-2">

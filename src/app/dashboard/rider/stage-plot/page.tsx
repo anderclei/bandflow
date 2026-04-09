@@ -23,6 +23,12 @@ export default async function StagePlotPage() {
     const currentFormat = formats[0]
     const initialItems = currentFormat.stagePlot ? JSON.parse(currentFormat.stagePlot) : []
 
+    // Fetch dynamic assets from database
+    const libraryAssets = await prisma.stageAssetDefinition.findMany({
+        where: { isActive: true },
+        orderBy: { category: "asc" },
+    });
+
     return (
         <div className="flex-1 space-y-4 p-8 pt-6">
             <div className="flex items-center justify-between space-y-2">
@@ -38,6 +44,7 @@ export default async function StagePlotPage() {
                         bandId={band.id}
                         formatId={currentFormat.id}
                         initialData={initialItems}
+                        libraryAssets={libraryAssets}
                     />
                 </CardContent>
             </Card>

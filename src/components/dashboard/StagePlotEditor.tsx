@@ -15,7 +15,7 @@ import {
     StageItemIcon
 } from './StagePlotAssets';
 
-const DraggableItem = ({ id, type, x, y, label, rotation, scale, selected, onSelect }: StageItem & { selected: boolean, onSelect: () => void }) => {
+const DraggableItem = ({ id, type, x, y, label, rotation, scale, selected, onSelect, svgContent, imageUrl }: StageItem & { selected: boolean, onSelect: () => void }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
         id: id,
     });
@@ -26,8 +26,6 @@ const DraggableItem = ({ id, type, x, y, label, rotation, scale, selected, onSel
         top: `${y}px`,
         position: 'absolute' as 'absolute',
     };
-
-    const config = ELEMENT_CONFIG[type];
 
     return (
         <div
@@ -45,7 +43,11 @@ const DraggableItem = ({ id, type, x, y, label, rotation, scale, selected, onSel
                     color: selected ? '#ccff00' : 'white'
                 }}
             >
-                <StageItemIcon type={type} />
+                <StageItemIcon 
+                    type={type} 
+                    svgContent={svgContent} 
+                    imageUrl={imageUrl} 
+                />
             </div>
 
             <span
@@ -60,7 +62,7 @@ const DraggableItem = ({ id, type, x, y, label, rotation, scale, selected, onSel
     );
 };
 
-export function StagePlotEditor({ bandId, initialData = [], formatId }: { bandId: string, initialData?: StageItem[], formatId?: string }) {
+export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAssets = [] }: { bandId: string, initialData?: StageItem[], formatId?: string, libraryAssets?: any[] }) {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -128,16 +130,30 @@ export function StagePlotEditor({ bandId, initialData = [], formatId }: { bandId
         }
     }
 
-    const addItem = (type: StageItemType) => {
-        const config = ELEMENT_CONFIG[type];
+    const addItem = (type: string, isDatabase = false, data: any = {}) => {
+        let label = "Item";
+        let svgContent = null;
+        let imageUrl = null;
+
+        if (isDatabase) {
+            label = data.label || data.name || "Item";
+            svgContent = data.svgContent;
+            imageUrl = data.imageUrl;
+        } else {
+            const config = ELEMENT_CONFIG[type as StageItemType];
+            label = config?.label || "Item";
+        }
+
         const newItem: StageItem = {
             id: `${type}-${Date.now()}`,
-            type,
+            type: type as any,
             x: 50,
             y: 50,
-            label: config.label,
+            label,
             rotation: 0,
             scale: 1,
+            svgContent,
+            imageUrl
         }
         setItems([...items, newItem])
         setSelectedId(newItem.id);
@@ -152,6 +168,14 @@ export function StagePlotEditor({ bandId, initialData = [], formatId }: { bandId
         if (selectedId === id) setSelectedId(null);
     }
 
+    // Grouping library assets by category
+    const groupedLibrary = libraryAssets.reduce((acc, asset) => {
+        const cat = asset.category || "GERAL";
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(asset);
+        return acc;
+    }, {} as Record<string, any[]>);
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
 
@@ -164,6 +188,7 @@ export function StagePlotEditor({ bandId, initialData = [], formatId }: { bandId
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="h-[500px] overflow-y-auto pr-2 custom-scrollbar space-y-10 pt-8">
+                        {/* Hardcoded Padrão */}
                         {Array.from(new Set(Object.values(ELEMENT_CONFIG).map(c => c.category))).map(cat => (
                             <div key={cat} className="space-y-4">
                                 <h3 className="text-[9px] font-black uppercase text-zinc-700 tracking-[0.4em] px-1">{cat}</h3>
@@ -185,6 +210,32 @@ export function StagePlotEditor({ bandId, initialData = [], formatId }: { bandId
                                                     </button>
                                                 );
                                             })}
+                                </div>
+                            </div>
+                        ))}
+
+                        {/* Database Assets */}
+                        {Object.entries(groupedLibrary).map(([cat, assets]) => (
+                            <div key={cat} className="space-y-4">
+                                <h3 className="text-[9px] font-black uppercase text-[#ccff00]/40 tracking-[0.4em] px-1">{cat}</h3>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {assets.map((asset) => (
+                                        <button
+                                            key={asset.id}
+                                            className="flex flex-col h-24 gap-2 bg-zinc-900/40 border border-white/10 hover:border-[#ccff00] hover:bg-[#ccff00]/5 p-2 items-center justify-center transition-all active:scale-95 group/item rounded-none"
+                                            onClick={() => addItem(asset.type, true, asset)}
+                                        >
+                                            <div className="pointer-events-none scale-[0.6] text-white group-hover/item:text-[#ccff00] transition-colors flex items-center justify-center">
+                                                <StageItemIcon 
+                                                    type={asset.type} 
+                                                    svgContent={asset.svgContent}
+                                                    imageUrl={asset.imageUrl}
+                                                    className="w-16 h-16" 
+                                                />
+                                            </div>
+                                            <span className="text-[8px] text-center uppercase tracking-widest font-black text-white group-hover/item:text-white mt-auto truncate w-full">{asset.label}</span>
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
                         ))}

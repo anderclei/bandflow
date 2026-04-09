@@ -9,20 +9,44 @@ import { cn } from '@/lib/utils';
 
 interface StageItem {
     id: string;
-    type: StageIconType;
+    type: string; // Changed from StageIconType to string to support IDs
     x: number;
     y: number;
     rotation: number;
     label?: string;
+    // New fields for database assets
+    isDatabaseAsset?: boolean;
+    svgContent?: string | null;
 }
 
 interface StagePlotEditorProps {
     initialData?: string; // JSON string
     onSave: (data: string) => void;
     bandName: string;
+    libraryAssets?: any[];
 }
 
-export function StagePlotEditor({ initialData, onSave, bandName }: StagePlotEditorProps) {
+const DynamicIcon = ({ type, isDatabaseAsset, svgContent, className }: { type: string, isDatabaseAsset?: boolean, svgContent?: string | null, className?: string }) => {
+    if (isDatabaseAsset && svgContent) {
+        return (
+            <div 
+                className={cn("bg-current", className)} 
+                style={{ 
+                    WebkitMaskImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}")`, 
+                    WebkitMaskSize: "contain", 
+                    WebkitMaskRepeat: "no-repeat", 
+                    WebkitMaskPosition: "center" 
+                }}
+            />
+        );
+    }
+    
+    // Fallback to hardcoded StageIcons
+    const Icon = StageIcons[type as StageIconType];
+    return Icon ? <Icon className={className} /> : <div className={cn("w-full h-full bg-zinc-800", className)} />;
+};
+
+export function StagePlotEditor({ initialData, onSave, bandName, libraryAssets = [] }: StagePlotEditorProps) {
     const [items, setItems] = useState<StageItem[]>([]);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [zoom, setZoom] = useState(1);
@@ -38,14 +62,16 @@ export function StagePlotEditor({ initialData, onSave, bandName }: StagePlotEdit
         }
     }, [initialData]);
 
-    const addItem = (type: StageIconType) => {
+    const addItem = (type: string, isDatabase = false, svgContent: string | null = null, label = "") => {
         const newItem: StageItem = {
             id: Math.random().toString(36).substr(2, 9),
             type,
             x: 50, // Posição central inicial
             y: 50,
             rotation: 0,
-            label: ""
+            label: label || "",
+            isDatabaseAsset: isDatabase,
+            svgContent: svgContent
         };
         setItems([...items, newItem]);
         setSelectedId(newItem.id);
@@ -67,33 +93,78 @@ export function StagePlotEditor({ initialData, onSave, bandName }: StagePlotEdit
         }
     };
 
+    // Grouping library assets by category
+    const groupedLibrary = libraryAssets.reduce((acc, asset) => {
+        const cat = asset.category || "GERAL";
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(asset);
+        return acc;
+    }, {} as Record<string, any[]>);
+
     return (
         <div className="flex flex-col lg:flex-row h-[700px] bg-zinc-950 rounded-3xl overflow-hidden border border-white/10 ring-1 ring-zinc-800 shadow-2xl">
             {/* Toolbar Lateral */}
-            <div className="w-full lg:w-72 bg-zinc-900/50 border-r border-white/5 p-6 space-y-8 overflow-y-auto">
+            <div className="w-full lg:w-72 bg-zinc-900/50 border-r border-white/5 p-6 space-y-8 overflow-y-auto custom-scrollbar">
                 <div className="space-y-2">
-                    <h3 className="text-xs font-black uppercase text-secondary tracking-widest">Equipamentos</h3>
-                    <p className="text-[10px] text-zinc-500 font-bold uppercase">Clique para adicionar ao palco</p>
+                    <h3 className="text-xs font-black uppercase text-secondary tracking-widest">Biblioteca</h3>
+                    <p className="text-[10px] text-zinc-500 font-bold uppercase">Categorias da Rede</p>
                 </div>
 
-                <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
-                    {(Object.keys(StageIcons) as StageIconType[]).map((type) => {
-                        const Icon = StageIcons[type];
-                        return (
-                            <button
-                                key={type}
-                                onClick={() => addItem(type)}
-                                className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 hover:bg-secondary hover:text-white transition-all group text-left"
-                            >
-                                <div className="h-10 w-10 shrink-0 bg-black/40 rounded-xl p-1.5 group-hover:bg-white/10 transition-colors">
-                                    <Icon className="w-full h-full text-zinc-400 group-hover:text-white" />
-                                </div>
-                                <span className="text-[10px] font-bold uppercase tracking-tight text-zinc-400 group-hover:text-white whitespace-nowrap">
-                                    {type.replace('_', ' ')}
-                                </span>
-                            </button>
-                        );
-                    })}
+                <div className="space-y-6">
+                    {/* Hardcoded Icons (Fallback) */}
+                    <div className="space-y-3">
+                        <h4 className="text-[9px] font-black text-zinc-600 uppercase tracking-widest border-l-2 border-secondary pl-2">Padrão</h4>
+                        <div className="grid grid-cols-1 gap-2">
+                            {(Object.keys(StageIcons) as StageIconType[]).map((type) => {
+                                const Icon = StageIcons[type];
+                                return (
+                                    <button
+                                        key={type}
+                                        onClick={() => addItem(type)}
+                                        className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 hover:bg-secondary hover:text-white transition-all group text-left"
+                                    >
+                                        <div className="h-8 w-8 shrink-0 bg-black/40 rounded-xl p-1.5 group-hover:bg-white/10 transition-colors">
+                                            <Icon className="w-full h-full text-zinc-400 group-hover:text-white" />
+                                        </div>
+                                        <span className="text-[9px] font-bold uppercase tracking-tight text-zinc-400 group-hover:text-white whitespace-nowrap overflow-hidden text-ellipsis">
+                                            {type.replace('_', ' ')}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Dynamic Library Assets */}
+                    {Object.entries(groupedLibrary).map(([cat, assets]) => (
+                        <div key={cat} className="space-y-3">
+                            <h4 className="text-[9px] font-black text-zinc-600 uppercase tracking-widest border-l-2 border-zinc-700 pl-2">{cat}</h4>
+                            <div className="grid grid-cols-1 gap-2">
+                                {assets.map((asset) => (
+                                    <button
+                                        key={asset.id}
+                                        onClick={() => addItem(asset.type, true, asset.svgContent, asset.label)}
+                                        className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 hover:bg-white hover:text-black transition-all group text-left"
+                                    >
+                                        <div className="h-8 w-8 shrink-0 bg-black/40 rounded-xl p-1.5 group-hover:bg-white/10 transition-colors">
+                                            <DynamicIcon 
+                                                type={asset.type} 
+                                                isDatabaseAsset={true} 
+                                                svgContent={asset.svgContent} 
+                                                className="w-full h-full text-zinc-400 group-hover:text-black" 
+                                            />
+                                        </div>
+                                        <div className="flex flex-col overflow-hidden">
+                                            <span className="text-[9px] font-bold uppercase tracking-tight text-white group-hover:text-black whitespace-nowrap overflow-hidden text-ellipsis">
+                                                {asset.label}
+                                            </span>
+                                            <span className="text-[7px] font-mono text-zinc-600 group-hover:text-zinc-800">{asset.type}</span>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
 
@@ -112,7 +183,6 @@ export function StagePlotEditor({ initialData, onSave, bandName }: StagePlotEdit
                 <div id="stage-canvas" className="absolute inset-4 translate-y-12 bg-zinc-900/20 rounded-2xl border border-white/5 shadow-inner">
                     <AnimatePresence>
                         {items.map((item) => {
-                            const Icon = StageIcons[item.type];
                             const isSelected = selectedId === item.id;
 
                             return (
@@ -153,14 +223,19 @@ export function StagePlotEditor({ initialData, onSave, bandName }: StagePlotEdit
                                             "w-20 h-20 transition-all drop-shadow-2xl",
                                             isSelected ? "text-secondary" : "text-zinc-200 group-hover:text-white"
                                         )}>
-                                            {Icon ? <Icon className="w-full h-full" /> : <div className="w-full h-full bg-red-500" />}
+                                            <DynamicIcon 
+                                                type={item.type} 
+                                                isDatabaseAsset={item.isDatabaseAsset} 
+                                                svgContent={item.svgContent} 
+                                                className="w-full h-full" 
+                                            />
                                         </div>
                                         {/* Item Name Label */}
                                         <div className={cn(
                                             "mt-2 px-2 py-0.5 rounded bg-black/60 backdrop-blur-md whitespace-nowrap text-[8px] font-black uppercase tracking-widest border border-white/10",
                                             isSelected ? "text-secondary border-secondary/30" : "text-zinc-500"
                                         )}>
-                                            {item.label || item.type.split('_').join(' ')}
+                                            {item.label}
                                         </div>
                                     </div>
 

@@ -28,6 +28,12 @@ export default async function StagePlotPage({
     // Default stage plot configuration
     const initialPlot = format.stagePlot ? JSON.parse(format.stagePlot) : [];
 
+    // Fetch dynamic assets from database
+    const libraryAssets = await prisma.stageAssetDefinition.findMany({
+        where: { isActive: true },
+        orderBy: { category: "asc" },
+    });
+
     return (
         <div className="space-y-12 h-full flex flex-col pb-20">
             <div className="flex items-center gap-6 border-b border-white/5 pb-10">
@@ -54,7 +60,11 @@ export default async function StagePlotPage({
 
             <div className="flex-1 bg-zinc-900/40 border border-white/5 overflow-hidden flex flex-col relative group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#ccff00]/5 blur-3xl pointer-events-none" />
-                <StagePlotConfigurator formatId={format.id} initialPlot={initialPlot} />
+                <StagePlotConfigurator 
+                    formatId={format.id} 
+                    initialPlot={initialPlot} 
+                    libraryAssets={libraryAssets}
+                />
             </div>
         </div>
     );

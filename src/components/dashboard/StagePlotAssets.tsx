@@ -78,12 +78,44 @@ export const SvgInstrument = ({ name, className }: { name: string, className?: s
   );
 };
 
-export const StageItemIcon = ({ type, className }: { type: StageItemType, className?: string }) => {
-    const config = ELEMENT_CONFIG[type];
-    if (!config) return null;
+export const StageItemIcon = ({ 
+    type, 
+    className, 
+    svgContent, 
+    imageUrl 
+}: { 
+    type: string, 
+    className?: string,
+    svgContent?: string | null,
+    imageUrl?: string | null
+}) => {
+    // If we have explicit database content, use it
+    if (svgContent) {
+        return (
+            <div 
+                className={`bg-current ${className || 'w-20 h-20'}`}
+                style={{
+                    WebkitMaskImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}")`,
+                    WebkitMaskPosition: 'center',
+                    WebkitMaskRepeat: 'no-repeat',
+                    WebkitMaskSize: 'contain',
+                    maskImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}")`,
+                    maskPosition: 'center',
+                    maskRepeat: 'no-repeat',
+                    maskSize: 'contain',
+                }}
+            />
+        );
+    }
+
+    if (imageUrl) {
+        return <img src={imageUrl} alt={type} className={`object-contain ${className || 'w-20 h-20'}`} />;
+    }
+
+    // Fallback to hardcoded configuration
+    const config = ELEMENT_CONFIG[type as StageItemType];
+    if (!config) return <div className={`bg-zinc-800 rounded ${className || 'w-10 h-10'}`} />;
 
     const iconClassName = className || config.width;
-    
-    // Agora puxamos o bloco dinâmico que mascara qualquer SVG novo do SVG Repo.
     return <SvgInstrument name={config.spriteId} className={iconClassName} />;
 };

@@ -190,7 +190,7 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
     }, {} as Record<string, any[]>);
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
             <div className="lg:col-span-1 space-y-8">
                 <Card className="rounded-none bg-black border border-white/5 overflow-hidden">
@@ -263,7 +263,7 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
                 </div>
             </div>
 
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-2">
                 <Card className="h-[700px] relative overflow-hidden bg-black border border-white/10 rounded-none shadow-2xl transition-colors group/stage">
                     {/* Grid Background */}
                     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -298,12 +298,102 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
 
 
                 </Card>
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center mt-4">
                     <div className="bg-zinc-900 border border-white/5 px-8 py-3 rounded-none shadow-lg">
                         <p className="text-[9px] font-black text-zinc-700 uppercase tracking-[0.4em]">
-                            SELECIONOU? AJUSTE O ÂNGULO E TAMANHO NO PAINEL LATERAL.
+                            SELECIONE UM ITEM PARA VER OS AJUSTES →
                         </p>
                     </div>
+                </div>
+            </div>
+
+            {/* Right: Adjustments Column */}
+            <div className="lg:col-span-1 space-y-4">
+                <div className="bg-black border border-white/5 p-4 space-y-6">
+                    <span className="text-[9px] font-black text-zinc-600 uppercase tracking-[0.3em] block text-center">AJUSTES</span>
+
+                    {/* Rotation */}
+                    <div className="space-y-2">
+                        <p className="text-[8px] font-black text-zinc-700 uppercase tracking-widest text-center">ROTAÇÃO</p>
+                        <button
+                            className={`w-full h-12 border font-black text-lg transition-all ${
+                                selectedId
+                                    ? 'bg-black border-white/10 hover:border-[#ccff00] text-white active:scale-95'
+                                    : 'bg-zinc-950 border-white/5 text-zinc-800 cursor-not-allowed'
+                            }`}
+                            disabled={!selectedId}
+                            onClick={() => {
+                                const item = items.find(i => i.id === selectedId);
+                                if (item) updateItem(selectedId!, { rotation: (item.rotation || 0) - 45 });
+                            }}
+                            title="Girar Esquerda"
+                        >
+                            ↺
+                        </button>
+                        <button
+                            className={`w-full h-12 border font-black text-lg transition-all ${
+                                selectedId
+                                    ? 'bg-black border-white/10 hover:border-[#ccff00] text-white active:scale-95'
+                                    : 'bg-zinc-950 border-white/5 text-zinc-800 cursor-not-allowed'
+                            }`}
+                            disabled={!selectedId}
+                            onClick={() => {
+                                const item = items.find(i => i.id === selectedId);
+                                if (item) updateItem(selectedId!, { rotation: (item.rotation || 0) + 45 });
+                            }}
+                            title="Girar Direita"
+                        >
+                            ↻
+                        </button>
+                    </div>
+
+                    {/* Scale */}
+                    <div className="space-y-2">
+                        <p className="text-[8px] font-black text-zinc-700 uppercase tracking-widest text-center">ESCALA</p>
+                        <button
+                            className={`w-full h-12 border font-black text-xl transition-all ${
+                                selectedId
+                                    ? 'bg-black border-white/10 hover:border-[#ccff00] text-white active:scale-95'
+                                    : 'bg-zinc-950 border-white/5 text-zinc-800 cursor-not-allowed'
+                            }`}
+                            disabled={!selectedId}
+                            onClick={() => {
+                                const item = items.find(i => i.id === selectedId);
+                                if (item) updateItem(selectedId!, { scale: Math.min(3, (item.scale || 1) + 0.1) });
+                            }}
+                            title="Aumentar"
+                        >
+                            +
+                        </button>
+                        <button
+                            className={`w-full h-12 border font-black text-xl transition-all ${
+                                selectedId
+                                    ? 'bg-black border-white/10 hover:border-[#ccff00] text-white active:scale-95'
+                                    : 'bg-zinc-950 border-white/5 text-zinc-800 cursor-not-allowed'
+                            }`}
+                            disabled={!selectedId}
+                            onClick={() => {
+                                const item = items.find(i => i.id === selectedId);
+                                if (item) updateItem(selectedId!, { scale: Math.max(0.3, (item.scale || 1) - 0.1) });
+                            }}
+                            title="Diminuir"
+                        >
+                            −
+                        </button>
+                    </div>
+
+                    {/* Remove */}
+                    <button
+                        className={`w-full h-14 border font-black text-[9px] uppercase tracking-widest transition-all ${
+                            selectedId
+                                ? 'bg-red-900/20 text-red-500 border-red-900/50 hover:bg-red-600 hover:text-white active:scale-95'
+                                : 'bg-zinc-950 border-white/5 text-zinc-800 cursor-not-allowed'
+                        }`}
+                        disabled={!selectedId}
+                        onClick={() => selectedId && removeItem(selectedId)}
+                    >
+                        REMOVER
+                    </button>
                 </div>
             </div>
         </div>

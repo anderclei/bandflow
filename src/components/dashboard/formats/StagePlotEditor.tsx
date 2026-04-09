@@ -163,7 +163,7 @@ export function StagePlotEditor({ initialData, onSave, bandName, libraryAssets =
                                 Configure os instrumentos no painel Super Admin.
                             </p>
                         </div>
-                    ))}
+                    )}
                 </div>
             </div>
 

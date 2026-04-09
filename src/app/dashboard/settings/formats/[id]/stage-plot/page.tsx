@@ -30,7 +30,6 @@ export default async function StagePlotPage({
 
     // Fetch dynamic assets from database
     const libraryAssets = await prisma.stageAssetDefinition.findMany({
-        where: { isActive: true },
         orderBy: { category: "asc" },
     });
 

@@ -295,70 +295,8 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
                         </div>
                     </DndContext>
 
-                    {selectedId && (
-                        <div className="absolute top-12 right-8 bg-zinc-900 border border-[#ccff00]/30 p-6 rounded-none shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col gap-6 z-50 animate-in fade-in slide-in-from-right-4 w-48">
-                            <span className="text-[9px] font-black text-center text-zinc-600 uppercase tracking-[0.3em]">AJUSTES</span>
-                            
-                            <div className="space-y-4">
-                                <p className="text-[8px] font-black text-zinc-700 uppercase tracking-widest text-center">ROTAÇÃO</p>
-                                <div className="flex gap-2 justify-center">
-                                    <button
-                                        className="h-10 w-full bg-black border border-white/5 hover:border-[#ccff00] text-white transition-all flex items-center justify-center font-black"
-                                        onClick={() => {
-                                            const item = items.find(i => i.id === selectedId);
-                                            if (item) updateItem(selectedId, { rotation: (item.rotation || 0) - 45 });
-                                        }}
-                                        title="Girar Esquerda"
-                                    >
-                                        ↺
-                                    </button>
-                                    <button
-                                        className="h-10 w-full bg-black border border-white/5 hover:border-[#ccff00] text-white transition-all flex items-center justify-center font-black"
-                                        onClick={() => {
-                                            const item = items.find(i => i.id === selectedId);
-                                            if (item) updateItem(selectedId, { rotation: (item.rotation || 0) + 45 });
-                                        }}
-                                        title="Girar Direita"
-                                    >
-                                        ↻
-                                    </button>
-                                </div>
-                            </div>
 
-                            <div className="space-y-4">
-                                <p className="text-[8px] font-black text-zinc-700 uppercase tracking-widest text-center">ESCALA</p>
-                                <div className="flex gap-2 justify-center">
-                                    <button
-                                        className="h-10 w-full bg-black border border-white/5 hover:border-[#ccff00] text-white transition-all flex items-center justify-center font-black"
-                                        onClick={() => {
-                                            const item = items.find(i => i.id === selectedId);
-                                            if (item) updateItem(selectedId, { scale: Math.max(0.3, (item.scale || 1) - 0.1) });
-                                        }}
-                                        title="Diminuir"
-                                    >
-                                        -
-                                    </button>
-                                    <button
-                                        className="h-10 w-full bg-black border border-white/5 hover:border-[#ccff00] text-white transition-all flex items-center justify-center font-black"
-                                        onClick={() => {
-                                            const item = items.find(i => i.id === selectedId);
-                                            if (item) updateItem(selectedId, { scale: Math.min(3, (item.scale || 1) + 0.1) });
-                                        }}
-                                        title="Aumentar"
-                                    >
-                                        +
-                                    </button>
-                                </div>
-                            </div>
 
-                            <button
-                                className="w-full h-12 bg-red-900/20 text-red-500 border border-red-900/50 hover:bg-red-600 hover:text-white transition-all text-[9px] font-black uppercase tracking-widest active:scale-95"
-                                onClick={() => removeItem(selectedId)}
-                            >
-                                REMOVER ITEM
-                            </button>
-                        </div>
-                    )}
                 </Card>
                 <div className="flex justify-center mt-8">
                     <div className="bg-zinc-900 border border-white/5 px-8 py-3 rounded-none shadow-lg">

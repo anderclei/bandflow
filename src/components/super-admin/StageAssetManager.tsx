@@ -257,7 +257,7 @@ export function StageAssetManager({ initialAssets }: { initialAssets: StageAsset
                           <div 
                             className="w-8 h-8 text-white bg-current" 
                             style={{ 
-                                WebkitMaskImage: `url("data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(asset.svgContent.includes('xmlns=') ? asset.svgContent : asset.svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"'))))}")`, 
+                                WebkitMaskImage: `url("data:image/svg+xml;base64,${typeof window === 'undefined' ? Buffer.from(asset.svgContent.includes('xmlns=') ? asset.svgContent : asset.svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"')).toString('base64') : btoa(unescape(encodeURIComponent(asset.svgContent.includes('xmlns=') ? asset.svgContent : asset.svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"'))))}")`, 
                                 WebkitMaskSize: "contain", 
                                 WebkitMaskRepeat: "no-repeat", 
                                 WebkitMaskPosition: "center" 

@@ -34,7 +34,11 @@ const DynamicIcon = ({ type, isDatabaseAsset, svgContent, className }: { type: s
             ? svgContent 
             : svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
         
-        const dataUriTarget = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgNormalized)))}`;
+        const svgBase64 = typeof window === 'undefined' 
+            ? Buffer.from(svgNormalized).toString('base64') 
+            : btoa(unescape(encodeURIComponent(svgNormalized)));
+            
+        const dataUriTarget = `data:image/svg+xml;base64,${svgBase64}`;
 
         return (
             <div 

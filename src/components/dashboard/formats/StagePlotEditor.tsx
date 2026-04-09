@@ -29,14 +29,25 @@ interface StagePlotEditorProps {
 
 const DynamicIcon = ({ type, isDatabaseAsset, svgContent, className }: { type: string, isDatabaseAsset?: boolean, svgContent?: string | null, className?: string }) => {
     if (isDatabaseAsset && svgContent) {
+        // Safe Base64 encoding for SVG
+        const svgNormalized = svgContent.includes('xmlns=') 
+            ? svgContent 
+            : svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+        
+        const dataUriTarget = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgNormalized)))}`;
+
         return (
             <div 
                 className={cn("bg-current", className)} 
                 style={{ 
-                    WebkitMaskImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}")`, 
+                    WebkitMaskImage: `url("${dataUriTarget}")`, 
                     WebkitMaskSize: "contain", 
                     WebkitMaskRepeat: "no-repeat", 
-                    WebkitMaskPosition: "center" 
+                    WebkitMaskPosition: "center",
+                    maskImage: `url("${dataUriTarget}")`,
+                    maskSize: "contain",
+                    maskRepeat: "no-repeat",
+                    maskPosition: "center"
                 }}
             />
         );

@@ -165,6 +165,11 @@ export async function suggestSvgIcon(label: string, skipIndex: number = 0) {
       // Limpa para currentColor 
       svgText = svgText.replace(/(fill|stroke)="(?!(none|transparent))[^"]+"/g, '$1="currentColor"');
       
+      // Ensure xmlns is present for cross-browser data URIs
+      if (!svgText.includes('xmlns=')) {
+        svgText = svgText.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+      }
+      
       return { success: true, svg: svgText, name: selected };
     }
     

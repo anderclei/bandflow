@@ -93,15 +93,22 @@ export const StageItemIcon = ({
 }) => {
     // If we have explicit database content, use it
     if (svgContent) {
+        // Safe Base64 encoding for SVG
+        const svgNormalized = svgContent.includes('xmlns=') 
+            ? svgContent 
+            : svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+        
+        const dataUriTarget = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgNormalized)))}`;
+
         return (
             <div 
                 className={`bg-current ${className || 'w-20 h-20'}`}
                 style={{
-                    WebkitMaskImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}")`,
+                    WebkitMaskImage: `url("${dataUriTarget}")`,
                     WebkitMaskPosition: 'center',
                     WebkitMaskRepeat: 'no-repeat',
                     WebkitMaskSize: 'contain',
-                    maskImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(svgContent)}")`,
+                    maskImage: `url("${dataUriTarget}")`,
                     maskPosition: 'center',
                     maskRepeat: 'no-repeat',
                     maskSize: 'contain',

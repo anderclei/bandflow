@@ -256,7 +256,12 @@ export function StageAssetManager({ initialAssets }: { initialAssets: StageAsset
                         {asset.svgContent ? (
                           <div 
                             className="w-8 h-8 text-white bg-current" 
-                            style={{ WebkitMaskImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(asset.svgContent)}")`, WebkitMaskSize: "contain", WebkitMaskRepeat: "no-repeat", WebkitMaskPosition: "center" }}
+                            style={{ 
+                                WebkitMaskImage: `url("data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(asset.svgContent.includes('xmlns=') ? asset.svgContent : asset.svgContent.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"'))))}")`, 
+                                WebkitMaskSize: "contain", 
+                                WebkitMaskRepeat: "no-repeat", 
+                                WebkitMaskPosition: "center" 
+                            }}
                           />
                         ) : asset.imageUrl ? (
                           <img src={asset.imageUrl} alt={asset.label} className="w-8 h-8 object-contain" />

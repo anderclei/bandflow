@@ -190,7 +190,7 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
     }, {} as Record<string, any[]>);
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
 
             <div className="lg:col-span-1 space-y-8">
                 <Card className="rounded-none bg-black border border-white/5 overflow-hidden">
@@ -263,8 +263,8 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
                 </div>
             </div>
 
-            <div className="lg:col-span-2">
-                <Card className="h-[700px] relative overflow-hidden bg-black border border-white/10 rounded-none shadow-2xl transition-colors group/stage">
+            <div className="lg:col-span-4">
+                <Card className="h-[480px] relative overflow-hidden bg-black border border-white/10 rounded-none shadow-2xl transition-colors group/stage">
                     {/* Grid Background */}
                     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]"></div>
                     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ccff0003_1px,transparent_1px),linear-gradient(to_bottom,#ccff0003_1px,transparent_1px)] bg-[size:200px_200px]"></div>

@@ -1,6 +1,6 @@
 import { getActiveBand } from "@/lib/getActiveBand";
 import { prisma } from "@/lib/prisma";
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import { StagePlotConfigurator } from "./StagePlotConfigurator";
 import { ArrowLeft, Map } from "lucide-react";
 import Link from "next/link";
@@ -29,23 +29,6 @@ export default async function StagePlotPage({
     // Default stage plot configuration
     const initialPlot = format.stagePlot ? JSON.parse(format.stagePlot) : [];
 
-    // Fetch dynamic assets from database with fallback
-    let libraryAssets: any[] = [];
-    try {
-        const assets = await prisma.stageAssetDefinition.findMany({
-            orderBy: { category: "asc" },
-        });
-        
-        libraryAssets = assets.map(a => ({
-            ...a,
-            createdAt: a.createdAt.toISOString(),
-            updatedAt: a.updatedAt.toISOString(),
-        }));
-    } catch (e: any) {
-        console.error("Erro ao buscar biblioteca de assets:", e);
-        // Debugging info for dev
-        (libraryAssets as any)._error = e.message;
-    }
 
     return (
         <div className="space-y-12 h-full flex flex-col pb-20">
@@ -76,7 +59,6 @@ export default async function StagePlotPage({
                 <StagePlotConfigurator 
                     formatId={format.id} 
                     initialPlot={initialPlot} 
-                    libraryAssets={libraryAssets}
                 />
             </div>
         </div>

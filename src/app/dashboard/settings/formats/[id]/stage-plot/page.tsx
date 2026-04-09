@@ -32,14 +32,14 @@ export default async function StagePlotPage({
     // Fetch dynamic assets from database with fallback
     let libraryAssets: any[] = [];
     try {
-        const assets = await prisma.stageAssetDefinition.findMany({
-            orderBy: { category: "asc" },
-        });
-        // Serialize Dates for Client Component
+        // Raw check to bypass potential model mismatches
+        const assets: any[] = await prisma.$queryRaw`SELECT * FROM "StageAssetDefinition" ORDER BY category ASC`;
+        
         libraryAssets = assets.map(a => ({
             ...a,
-            createdAt: a.createdAt.toISOString(),
-            updatedAt: a.updatedAt.toISOString(),
+            // Handle date objects from raw query
+            createdAt: a.createdAt?.toISOString ? a.createdAt.toISOString() : new Date().toISOString(),
+            updatedAt: a.updatedAt?.toISOString ? a.updatedAt.toISOString() : new Date().toISOString(),
         }));
     } catch (e: any) {
         console.error("Erro ao buscar biblioteca de assets:", e);

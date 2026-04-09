@@ -118,7 +118,10 @@ export function StagePlotEditor({ initialData, onSave, bandName, libraryAssets =
             {/* Toolbar Lateral */}
             <div className="w-full lg:w-72 bg-zinc-900/50 border-r border-white/5 p-6 space-y-8 overflow-y-auto custom-scrollbar">
                 <div className="space-y-2">
-                    <h3 className="text-xs font-black uppercase text-secondary tracking-widest">Biblioteca</h3>
+                    <h3 className="text-xs font-black uppercase text-secondary tracking-widest flex items-center justify-between">
+                        Biblioteca
+                        <span className="text-[10px] text-zinc-600 bg-white/5 px-2 py-0.5 rounded-full">{libraryAssets.length} itens</span>
+                    </h3>
                     <p className="text-[10px] text-zinc-500 font-bold uppercase">Categorias da Rede</p>
                 </div>
 

@@ -184,7 +184,7 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
                     <CardHeader className="border-b border-white/5 pb-6 bg-zinc-900/20">
                         <CardTitle className="text-sm font-black uppercase tracking-[0.3em] flex items-center justify-between text-white">
                             BIBLIOTECA
-                            <span className="text-[10px] font-black text-[#ccff00]">{items.length} ITENS</span>
+                            <span className="text-[10px] font-black text-[#ccff00]">{libraryAssets.length} ITENS</span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="h-[500px] overflow-y-auto pr-2 custom-scrollbar space-y-10 pt-8">

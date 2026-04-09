@@ -26,12 +26,14 @@ export default async function StagePlotPage() {
 
     let libraryAssets: any[] = [];
     try {
-        const assets: any[] = await prisma.$queryRaw`SELECT * FROM "StageAssetDefinition" ORDER BY category ASC`;
+        const assets = await prisma.stageAssetDefinition.findMany({
+            orderBy: { category: "asc" },
+        });
         
         libraryAssets = assets.map(a => ({
             ...a,
-            createdAt: a.createdAt?.toISOString ? a.createdAt.toISOString() : new Date().toISOString(),
-            updatedAt: a.updatedAt?.toISOString ? a.updatedAt.toISOString() : new Date().toISOString(),
+            createdAt: a.createdAt.toISOString(),
+            updatedAt: a.updatedAt.toISOString(),
         }));
     } catch (e: any) {
         console.error("Erro ao carregar biblioteca:", e);

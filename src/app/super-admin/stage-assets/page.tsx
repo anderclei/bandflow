@@ -8,9 +8,15 @@ export const metadata = {
 export default async function StageAssetsPage() {
   let assets: any[] = [];
   try {
-    assets = await prisma.stageAssetDefinition.findMany({
+    const rawAssets = await prisma.stageAssetDefinition.findMany({
       orderBy: { createdAt: "asc" },
     });
+    // Serialize Dates for Client Component
+    assets = rawAssets.map(a => ({
+      ...a,
+      createdAt: a.createdAt.toISOString(),
+      updatedAt: a.updatedAt.toISOString(),
+    }));
   } catch (e) {
     console.error("Erro ao carregar Stage Assets:", e);
   }

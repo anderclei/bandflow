@@ -62,11 +62,12 @@ const DraggableItem = ({ id, type, x, y, label, rotation, scale, selected, onSel
     );
 };
 
-export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAssets = [] }: { bandId: string, initialData?: StageItem[], formatId?: string, libraryAssets?: any[] }) {
+export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAssets: initialLibraryAssets = [] }: { bandId: string, initialData?: StageItem[], formatId?: string, libraryAssets?: any[] }) {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [items, setItems] = useState<StageItem[]>(initialData);
+    const [libraryAssets, setLibraryAssets] = useState<any[]>(initialLibraryAssets);
 
 
     const sensors = useSensors(
@@ -79,6 +80,18 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
     );
 
     useEffect(() => {
+        // Fetch assets from API if not already provided via props
+        if (initialLibraryAssets.length === 0) {
+            fetch("/api/stage-assets")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.ok && Array.isArray(data.assets)) {
+                        setLibraryAssets(data.assets);
+                    }
+                })
+                .catch(err => console.error("Erro ao carregar biblioteca:", err));
+        }
+
         setMounted(true);
 
         const handleKeyDown = (e: KeyboardEvent) => {

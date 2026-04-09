@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateStagePlot } from "@/app/actions/stagePlot";
 import { StagePlotEditor } from "@/components/dashboard/formats/StagePlotEditor";
 import { toast } from "sonner";
@@ -9,11 +9,25 @@ import { Loader2 } from "lucide-react";
 interface StagePlotConfiguratorProps {
     formatId: string;
     initialPlot: any[];
-    libraryAssets?: any[];
 }
 
-export function StagePlotConfigurator({ formatId, initialPlot, libraryAssets = [] }: StagePlotConfiguratorProps) {
+export function StagePlotConfigurator({ formatId, initialPlot }: StagePlotConfiguratorProps) {
     const [isSaving, setIsSaving] = useState(false);
+    const [libraryAssets, setLibraryAssets] = useState<any[]>([]);
+    const [loadingAssets, setLoadingAssets] = useState(true);
+
+    // Fetch assets client-side to avoid RSC serialization issues with large SVG content
+    useEffect(() => {
+        fetch("/api/stage-assets")
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok && Array.isArray(data.assets)) {
+                    setLibraryAssets(data.assets);
+                }
+            })
+            .catch(err => console.error("Erro ao carregar biblioteca:", err))
+            .finally(() => setLoadingAssets(false));
+    }, []);
 
     const handleSave = async (jsonString: string) => {
         setIsSaving(true);
@@ -34,11 +48,13 @@ export function StagePlotConfigurator({ formatId, initialPlot, libraryAssets = [
 
     return (
         <div className="relative flex-1 flex flex-col">
-            {isSaving && (
+            {(isSaving || loadingAssets) && (
                 <div className="absolute inset-0 z-[100] bg-black/20 backdrop-blur-[1px] flex items-center justify-center rounded-3xl">
                     <div className="bg-white dark:bg-zinc-900 p-4 rounded-2xl shadow-xl flex items-center gap-3">
                         <Loader2 className="h-5 w-5 animate-spin text-secondary" />
-                        <span className="text-sm font-bold">Salvando arquitetura...</span>
+                        <span className="text-sm font-bold">
+                            {loadingAssets ? "Carregando biblioteca..." : "Salvando arquitetura..."}
+                        </span>
                     </div>
                 </div>
             )}

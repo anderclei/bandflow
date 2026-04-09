@@ -9,14 +9,15 @@ import { cn } from '@/lib/utils';
 
 interface StageItem {
     id: string;
-    type: string; // Changed from StageIconType to string to support IDs
+    type: string;
     x: number;
     y: number;
     rotation: number;
-    label?: string;
+    label: string;
     // New fields for database assets
     isDatabaseAsset?: boolean;
     svgContent?: string | null;
+    imageUrl?: string | null;
 }
 
 interface StagePlotEditorProps {

@@ -13,12 +13,14 @@ export type StageItemType =
 
 export interface StageItem {
     id: string;
-    type: StageItemType;
+    type: string; // Changed from StageItemType to support database IDs
     x: number;
     y: number;
     label: string;
     rotation: number;
     scale: number;
+    svgContent?: string | null;
+    imageUrl?: string | null;
 }
 
 // ----------------------------------------------------------------------

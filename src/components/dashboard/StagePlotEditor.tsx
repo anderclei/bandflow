@@ -188,32 +188,6 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="h-[500px] overflow-y-auto pr-2 custom-scrollbar space-y-10 pt-8">
-                        {/* Hardcoded Padrão */}
-                        {Array.from(new Set(Object.values(ELEMENT_CONFIG).map(c => c.category))).map(cat => (
-                            <div key={cat} className="space-y-4">
-                                <h3 className="text-[9px] font-black uppercase text-zinc-700 tracking-[0.4em] px-1">{cat}</h3>
-                                <div className="grid grid-cols-2 gap-4">
-                                        {(Object.keys(ELEMENT_CONFIG) as StageItemType[])
-                                            .filter(type => ELEMENT_CONFIG[type].category === cat)
-                                            .map((type) => {
-                                                const config = ELEMENT_CONFIG[type];
-                                                return (
-                                                    <button
-                                                        key={type}
-                                                        className="flex flex-col h-24 gap-2 bg-zinc-900/40 border border-white/5 hover:border-[#ccff00]/50 hover:bg-[#ccff00]/5 p-2 items-center justify-center transition-all active:scale-95 group/item rounded-none"
-                                                        onClick={() => addItem(type)}
-                                                    >
-                                                        <div className="pointer-events-none scale-[0.6] text-zinc-500 group-hover/item:text-[#ccff00] transition-colors flex items-center justify-center">
-                                                            <StageItemIcon type={type} className="w-16 h-16" />
-                                                        </div>
-                                                        <span className="text-[8px] text-center uppercase tracking-widest font-black text-zinc-600 group-hover/item:text-white mt-auto truncate w-full">{config.label}</span>
-                                                    </button>
-                                                );
-                                            })}
-                                </div>
-                            </div>
-                        ))}
-
                         {/* Database Assets */}
                         {(Object.entries(groupedLibrary) as [string, any[]][]).map(([cat, assets]) => (
                             <div key={cat} className="space-y-4">

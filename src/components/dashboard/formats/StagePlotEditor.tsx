@@ -123,30 +123,6 @@ export function StagePlotEditor({ initialData, onSave, bandName, libraryAssets =
                 </div>
 
                 <div className="space-y-6">
-                    {/* Hardcoded Icons (Fallback) */}
-                    <div className="space-y-3">
-                        <h4 className="text-[9px] font-black text-zinc-600 uppercase tracking-widest border-l-2 border-secondary pl-2">Padrão</h4>
-                        <div className="grid grid-cols-1 gap-2">
-                            {(Object.keys(StageIcons) as StageIconType[]).map((type) => {
-                                const Icon = StageIcons[type];
-                                return (
-                                    <button
-                                        key={type}
-                                        onClick={() => addItem(type)}
-                                        className="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 hover:bg-secondary hover:text-white transition-all group text-left"
-                                    >
-                                        <div className="h-8 w-8 shrink-0 bg-black/40 rounded-xl p-1.5 group-hover:bg-white/10 transition-colors">
-                                            <Icon className="w-full h-full text-zinc-400 group-hover:text-white" />
-                                        </div>
-                                        <span className="text-[9px] font-bold uppercase tracking-tight text-zinc-400 group-hover:text-white whitespace-nowrap overflow-hidden text-ellipsis">
-                                            {type.replace('_', ' ')}
-                                        </span>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-
                     {/* Dynamic Library Assets */}
                     {(Object.entries(groupedLibrary) as [string, any[]][]).map(([cat, assets]) => (
                         <div key={cat} className="space-y-3">

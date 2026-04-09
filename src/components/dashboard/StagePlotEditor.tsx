@@ -215,7 +215,7 @@ export function StagePlotEditor({ bandId, initialData = [], formatId, libraryAss
                         ))}
 
                         {/* Database Assets */}
-                        {Object.entries(groupedLibrary).map(([cat, assets]) => (
+                        {(Object.entries(groupedLibrary) as [string, any[]][]).map(([cat, assets]) => (
                             <div key={cat} className="space-y-4">
                                 <h3 className="text-[9px] font-black uppercase text-[#ccff00]/40 tracking-[0.4em] px-1">{cat}</h3>
                                 <div className="grid grid-cols-2 gap-4">

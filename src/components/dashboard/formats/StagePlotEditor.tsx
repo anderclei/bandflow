@@ -137,7 +137,7 @@ export function StagePlotEditor({ initialData, onSave, bandName, libraryAssets =
                     </div>
 
                     {/* Dynamic Library Assets */}
-                    {Object.entries(groupedLibrary).map(([cat, assets]) => (
+                    {(Object.entries(groupedLibrary) as [string, any[]][]).map(([cat, assets]) => (
                         <div key={cat} className="space-y-3">
                             <h4 className="text-[9px] font-black text-zinc-600 uppercase tracking-widest border-l-2 border-zinc-700 pl-2">{cat}</h4>
                             <div className="grid grid-cols-1 gap-2">
